@@ -1,0 +1,122 @@
+# 30 excluded (not APT-relevant)
+
+1. Estimation of Phosphorus Concentration in Silicon Thin Film on Glass Using ToF-S
+   Abul Hossion, Murukesan, Arora - 2021 - Estimation of phosphorus concentration in silicon thin film on glass using tof-sims.pdf
+   No APT-related terms found in text
+
+2. Quantitative study of oxygen enhancement of sputtered ion yields. I. Argon ion b
+   Franzreb, Lörinčík, Williams - 2004 - Quantitative study of oxygen enhancement of sputtered ion yields. I. Argon ion bombardment of a si.pdf
+   No APT-related terms found in text
+
+3. Atom Probe Microscopy
+   Gault et al. - 2012 - Atom Probe Microscopy.pdf
+   Document type is Book — excluded per schema
+
+4. Challenges and Opportunities for High-Power and High-Frequency AlGaN/GaN High-El
+   Haziq et al. - 2022 - Challenges and Opportunities for High-Power and High-Frequency AlGaNGaN High-Electron-Mobility Transistor (HEMT) A.pdf
+   No APT-related terms found in text
+
+5. Full paper title in Title Case
+   Kim et al. - Unknown - Understanding atom probe ’ s analytical performance for iron oxides using correlation histograms and ab initio ca.pdf
+   No APT-related terms found in text
+
+6. Quantitative SIMS analysis of SiC
+   Kudriavtsev et al. - 2003 - Quantitative SIMS analysis of SiC.pdf
+   No APT-related terms found in text
+
+7. Local Electrode Atom Probe Tomography: A User's Guide
+   Larson et al. - 2013 - Local Electrode Atom Probe Tomography A User's Guide.pdf
+   Document type is Book — excluded per schema
+
+8. SIMS analyses of ultra-low-energy B ion implants in Si: Evaluation of profile sh
+   Magee et al. - 2007 - SIMS analyses of ultra-low-energy B ion implants in Si Evaluation of profile shape and dose accuracy.pdf
+   No APT-related terms found in text
+
+9. Electrical activation of B in the presence of boron-interstitials clusters
+   Mannino et al. - 2001 - Electrical activation of B in the presence of boron-interstitials clusters.pdf
+   No APT-related terms found in text
+
+10. The work function of the elements and its periodicity
+   Michaelson - 1977 - The work function of the elements and its periodicity.pdf
+   No APT-related terms found in text
+
+11. Atom-Probe Tomography: The Local Electrode Atom Probe
+   Millerr·, Forbes - Unknown - Atom-Probe Tomography The Local Electrode Atom Probe.pdf
+   Document type is Book — excluded per schema
+
+12. Mechanisms of boron diffusion in silicon and germanium
+   Mirabella et al. - 2013 - Mechanisms of boron diffusion in silicon and germanium.pdf
+   No APT-related terms found in text
+
+13. Ab initio study of electron and phonon coupling in silicon
+   Mliles, Kouari, Hajjaji - 2020 - Ab initio study of electron and phonon coupling in silicon.pdf
+   No APT-related terms found in text
+
+14. The Future of Integrated Electronics
+   Moore - 1965 - Cramming more components onto integrated circuits.pdf
+   No APT-related terms found in text
+
+15. Influence of the Focused Ion Beam on the Atom Probe Tomography Sample Preparatio
+   Mutas, Klein - 2011 - Importance of the Protective Layers and the Specimen Preparation for Reproducible APT Results.pdf
+   No APT-related terms found in text
+
+16. Focused ion beams from GaBiLi liquid metal alloy ion sources for nanofabrication
+   Nadzeyka et al. - 2023 - Focused ion beams from GaBiLi liquid metal alloy ion sources for nanofabrication and ion imaging.pdf
+   No APT-related terms found in text
+
+17. Boron Implant in Silicon Standard for Calibration of Concentration in a Depth Pr
+   National Institute of Standards & Technology - Unknown - Standard Reference Material ® 2137 Boron Implant in Silicon Standard for Calibr.pdf
+   No APT-related terms found in text
+
+18. Flash Method of Determining Thermal Diffusivity, Heat Capacity, and Thermal Cond
+   Parker et al. - 1961 - Flash method of determining thermal diffusivity, heat capacity, and thermal conductivity.pdf
+   No APT-related terms found in text
+
+19. Scaling in light scattering by sharp conical metal tips
+   Pors, Nerkararyan, Bozhevolnyi - 2014 - Scaling in light scattering by sharp conical metal tips.pdf
+   No APT-related terms found in text
+
+20. Effect of optical diffraction on laser heating of a field emitter
+   ROBINS, LEE, LANGLOIS - 1985 - Effect of optical diffraction on laser heating of a field emitter E.pdf
+   No APT-related terms found in text
+
+21. Concentration Profiles of Implanted Boron Ions in Silicon
+   Schwarz et al. - 2021 - Concentration profiles of implanted boron ions in silicon from measurements with the ion microprobe.pdf
+   No APT-related terms found in text
+
+22. CALCULATED THRESHOLD-VOLTAGE CHARACTERISTICS OF AN XMOS TRANSISTOR HAVING AN ADD
+   Sekigawa, Hayashi - 1984 - Calculated threshold-voltage characteristics of an XMOS transistor having an additional bottom gate.pdf
+   No APT-related terms found in text
+
+23. Thermal Conductivity of the Crystalline Silicon
+   Sparavigna - 2017 - Thermal Conductivity of the Crystalline Silicon To cite this version HAL Id hal-01626126 Thermal Conductivity of t.pdf
+   No APT-related terms found in text
+
+24. High-brightness Cs focused ion beam from a cold-atomic-beam ion source
+   Steele et al. - 2017 - High-brightness cs focused ion beam from a cold-atomic-beam ion source.pdf
+   No APT-related terms found in text
+
+25. Applications of the Cesium Low Temperature Ion Source
+   Steele, Schwarzkopf, Knuffman - 2021 - Applications of the Cesium Low Temperature Ion Source.pdf
+   No APT-related terms found in text
+
+26. Determination of Phosphorus Distribution in the Silicon Dioxide/Silicon Layer Sy
+   Stingeder - 1988 - Determination of Phosphorus Distribution in the Silicon DioxideSilicon Layer System by Secondary Ion Mass Spectrometr.pdf
+   No APT-related terms found in text
+
+27. Errors in near-surface and interfacial profiling of boron and arsenic
+   Vandervorst et al. - 2004 - Errors in near-surface and interfacial profiling of boron and arsenic.pdf
+   No APT-related terms found in text
+
+28. Atom Probe Tomography
+   Vurpillot, Sauvage - Unknown - Atom Probe Tomography.pdf
+   Document type is Book — excluded per schema
+
+29. An electronic criterion for assessing intrinsic brittleness of metallic glasses
+   Wang et al. - 2014 - An electronic criterion for assessing intrinsic brittleness of metallic glasses.pdf
+   No APT-related terms found in text
+
+30. Magnetic Sector SIMS Systems for FIB Platforms: New Developments, Applications, 
+   Wirtz et al. - 2024 - Magnetic Sector SIMS Systems for FIB Platforms New Developments, Applications, and Prospects.pdf
+   No APT-related terms found in text
+
