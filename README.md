@@ -1,2 +1,2 @@
 # Semiconductors-AtomProbeTomography
-A searchable repository for literature on semiconductors analyzed by atom probe tomography.
+A searchable repository for atom probe tomography literature.

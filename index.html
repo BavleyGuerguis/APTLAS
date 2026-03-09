@@ -123,6 +123,14 @@
       margin-bottom: 20px;
     }
 
+    .landing-byline {
+      margin-top: 40px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.12em;
+    }
+
     /* Entry cards */
     .entry-row {
       display: flex;
@@ -456,8 +464,48 @@
       padding: 14px 28px;
       border-bottom: 1px solid var(--line);
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .rhead-left {
+      display: flex;
       align-items: baseline;
       gap: 8px;
+    }
+
+    /* Sort controls */
+    .sort-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sort-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .sort-btn {
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 4px 9px;
+      border-radius: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .sort-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--fg); }
+    .sort-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(232,164,39,0.08);
     }
 
     .rcount-n {
@@ -537,6 +585,7 @@
     .tag-i  { color: var(--gold);  border-color: rgba(232,164,39,0.3);  background: var(--gold-bg); }
     .tag-s  { color: var(--green); border-color: rgba(94,201,138,0.3);  background: rgba(94,201,138,0.06); }
     .tag-c  { color: var(--mid);   border-color: var(--line);           background: transparent; }
+    .tag-y  { color: var(--muted); border-color: var(--line);           background: transparent; font-variant-numeric: tabular-nums; }
 
     .pub-doi {
       font-family: var(--mono);
@@ -728,6 +777,9 @@
     </div>
 
   </div>
+
+  <div class="landing-byline">By Bavley Guerguis</div>
+
 </div>
 
 <!-- ═══════════════════════════════════════════════════
@@ -786,8 +838,17 @@
         </div>
       </div>
       <div class="rhead">
-        <span class="rcount-n" id="rcount-n">—</span>
-        <span class="rcount-label" id="rcount-l"></span>
+        <div class="rhead-left">
+          <span class="rcount-n" id="rcount-n">—</span>
+          <span class="rcount-label" id="rcount-l"></span>
+        </div>
+        <div class="sort-row" id="sort-row">
+          <span class="sort-label">sort:</span>
+          <button class="sort-btn active" id="sort-default" onclick="setSort('default')">default</button>
+          <button class="sort-btn" id="sort-newest"  onclick="setSort('newest')">newest</button>
+          <button class="sort-btn" id="sort-oldest"  onclick="setSort('oldest')">oldest</button>
+          <button class="sort-btn" id="sort-alpha"   onclick="setSort('alpha')">A → Z</button>
+        </div>
       </div>
       <div class="rlist" id="rlist"></div>
     </main>
@@ -906,10 +967,11 @@
 
 /* ── Data ───────────────────────────────────────────── */
 let allData = [];
-let mode    = null; // 'material' | 'function' | 'config'
+let abstractMap = {}; // id -> full abstract text
+let mode    = null;
+let SORT    = 'default';
 
-// All four filter dimensions, all always active
-const S = { material: null, config: null, instrument: null };
+const S = { material: null, config: null, instrument: null, year: null };
 
 async function loadData() {
   try {
@@ -934,34 +996,44 @@ async function loadData() {
       {id:15, configuration:"Straight Flight Path", instrument:"GPM LAWATAP",                     sample:"Material", device_function:null,           material:"ZnO",    doi:"10.1000/example.015", journal:"Surface and Interface Analysis",     title:"Wide-field APT of ZnO thin films using LAWATAP",               authors:"Vella, A.; Deconihout, B.",         notes:"0.05 nJ laser, 60 K"}
     ];
   }
+  // Build abstract lookup so we never pass long strings through onclick attrs
+  allData.forEach(function(e) {
+    if (e.abstract) abstractMap[e.id] = e.abstract;
+  });
 }
 
 /* ── Filter ─────────────────────────────────────────── */
 function filtered(ov = {}) {
   const s = {...S, ...ov};
   return allData.filter(d => {
-    if (s.material   && d.material        !== s.material)   return false;
-    if (s.config     && d.configuration   !== s.config)     return false;
-    if (s.instrument && d.instrument      !== s.instrument) return false;
+    if (s.material   && d.material        !== s.material)      return false;
+    if (s.config     && d.configuration   !== s.config)        return false;
+    if (s.instrument && d.instrument      !== s.instrument)    return false;
+    if (s.year       && String(d.year)    !== String(s.year))  return false;
     return true;
   });
 }
 
 function uniq(data, key) {
-  return [...new Set(data.map(d => d[key]).filter(Boolean))].sort();
+  const vals = [...new Set(data.map(d => d[key]).filter(Boolean))];
+  // Year: sort descending (newest first); everything else: alphabetical
+  if (key === 'year') {
+    return vals.sort((a, b) => Number(b) - Number(a));
+  }
+  return vals.sort();
 }
 
 /* ── Step rendering ─────────────────────────────────── */
-// Each step definition: key into S, data key, label, picker fn
 const STEP_DEFS = {
   material:   { label: 'Material',         dataKey: 'material',        stateKey: 'material'   },
   config:     { label: 'Configuration',    dataKey: 'configuration',   stateKey: 'config'     },
   instrument: { label: 'Instrument',       dataKey: 'instrument',      stateKey: 'instrument' },
+  year:       { label: 'Year',             dataKey: 'year',            stateKey: 'year'       },
 };
 
 const MODE_ORDER = {
-  material: ['material', 'config', 'instrument'],
-  config:   ['config',   'instrument', 'material'],
+  material: ['material', 'config', 'instrument', 'year'],
+  config:   ['config',   'instrument', 'material',  'year'],
 };
 
 function buildSidebar() {
@@ -1124,6 +1196,11 @@ function goBack() {
   setTimeout(() => l.classList.remove('out'), 10);
   // Reset search state
   SEARCH_QUERY = '';
+  SORT = 'default';
+  ['default','newest','oldest','alpha'].forEach(k => {
+    const btn = document.getElementById('sort-' + k);
+    if (btn) btn.classList.toggle('active', k === 'default');
+  });
   const inp = document.getElementById('search-input');
   if (inp) inp.value = '';
   document.getElementById('search-bar').style.display = 'none';
@@ -1152,59 +1229,98 @@ function updateBreadcrumb() {
   ).join('');
 }
 
+/* ── Sort ───────────────────────────────────────────── */
+function setSort(s) {
+  SORT = s;
+  var keys = ['default','newest','oldest','alpha'];
+  for (var i = 0; i < keys.length; i++) {
+    var btn = document.getElementById('sort-' + keys[i]);
+    if (btn) {
+      if (keys[i] === s) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    }
+  }
+  if (mode === 'search') {
+    renderSearch();
+  } else {
+    go();
+  }
+}
+
+function applySort(arr) {
+  var a = arr.slice(); // copy
+  if (SORT === 'newest') {
+    a.sort(function(x, y) {
+      var xYear = x.year ? Number(x.year) : 0;
+      var yYear = y.year ? Number(y.year) : 0;
+      return yYear - xYear;
+    });
+  } else if (SORT === 'oldest') {
+    a.sort(function(x, y) {
+      var xYear = x.year ? Number(x.year) : 9999;
+      var yYear = y.year ? Number(y.year) : 9999;
+      return xYear - yYear;
+    });
+  } else if (SORT === 'alpha') {
+    a.sort(function(x, y) {
+      var ta = x.title ? x.title.toLowerCase() : '';
+      var tb = y.title ? y.title.toLowerCase() : '';
+      if (ta < tb) return -1;
+      if (ta > tb) return 1;
+      return 0;
+    });
+  }
+  // 'default': return copy in original order (already copied above)
+  return a;
+}
+
 /* ── Results ────────────────────────────────────────── */
 function renderResults() {
-  const list   = document.getElementById('rlist');
-  const countN = document.getElementById('rcount-n');
-  const countL = document.getElementById('rcount-l');
-  const hasAny = S.material || S.config || S.instrument;
-  const results = filtered();
+  var list   = document.getElementById('rlist');
+  var countN = document.getElementById('rcount-n');
+  var countL = document.getElementById('rcount-l');
+  var hasAny = S.material || S.config || S.instrument;
+  var results = applySort(filtered());
 
   if (!hasAny) {
     countN.textContent = '—';
     countL.textContent = '';
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-glyph">◎</div>
-        <div class="empty-title">Select a filter to begin</div>
-        <div class="empty-sub">Use the panel on the left to narrow down the literature.</div>
-      </div>`;
+    list.innerHTML = '<div class="empty"><div class="empty-glyph">◎</div><div class="empty-title">Select a filter to begin</div><div class="empty-sub">Use the panel on the left to narrow down the literature.</div></div>';
     return;
   }
 
   countN.textContent = results.length;
-  countL.textContent = `publication${results.length !== 1 ? 's' : ''} found`;
+  countL.textContent = 'publication' + (results.length !== 1 ? 's' : '') + ' found';
 
   if (!results.length) {
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-glyph">∅</div>
-        <div class="empty-title">No results</div>
-        <div class="empty-sub">Nothing matches this combination. Try adjusting the filters.</div>
-      </div>`;
+    list.innerHTML = '<div class="empty"><div class="empty-glyph">∅</div><div class="empty-title">No results</div><div class="empty-sub">Nothing matches this combination. Try adjusting the filters.</div></div>';
     return;
   }
 
-  list.innerHTML = results.map((p, i) => {
-    const sub = p.device_function
-      ? `<span class="tag tag-s">${p.device_function}</span>`
+  list.innerHTML = results.map(function(p, i) {
+    var sub = p.device_function
+      ? '<span class="tag tag-s">' + p.device_function + '</span>'
       : p.material
-      ? `<span class="tag tag-s">${p.material}</span>`
+      ? '<span class="tag tag-s">' + p.material + '</span>'
       : '';
-    const instrTag = p.instrument   ? `<span class="tag tag-i">${p.instrument}</span>`   : '';
-    const cfgTag   = p.configuration ? `<span class="tag tag-c">${p.configuration}</span>` : '';
-    return `
-    <div class="pub" style="animation-delay:${i * 0.04}s">
-      <div class="pub-title">${p.title}</div>
-      <div class="pub-authors">${p.authors}</div>
-      <div class="pub-tags">
-        <span class="tag tag-j">${p.journal}</span>
-        ${instrTag}${cfgTag}
-        ${sub}
-      </div>
-      <div class="pub-doi">DOI: <a href="https://doi.org/${p.doi}" target="_blank">${p.doi}</a></div>
-      ${p.notes ? `<div class="pub-notes">${p.notes}</div>` : ''}
-    </div>`;
+    var instrTag = p.instrument    ? '<span class="tag tag-i">' + p.instrument    + '</span>' : '';
+    var cfgTag   = p.configuration ? '<span class="tag tag-c">' + p.configuration + '</span>' : '';
+    var yearTag  = p.year          ? '<span class="tag tag-y">' + p.year          + '</span>' : '';
+    return (
+      '<div class="pub" style="animation-delay:' + (i * 0.04) + 's">' +
+        '<div class="pub-title">'   + p.title   + '</div>' +
+        '<div class="pub-authors">' + p.authors  + '</div>' +
+        '<div class="pub-tags">' +
+          '<span class="tag tag-j">' + p.journal + '</span>' +
+          yearTag + instrTag + cfgTag + sub +
+        '</div>' +
+        '<div class="pub-doi">DOI: <a href="https://doi.org/' + p.doi + '" target="_blank">' + p.doi + '</a></div>' +
+        (p.notes ? '<div class="pub-notes">' + p.notes + '</div>' : '') +
+      '</div>'
+    );
   }).join('');
 }
 
@@ -1237,82 +1353,79 @@ function highlight(text, query) {
 }
 
 function renderSearch() {
-  const bar   = document.getElementById('search-bar');
-  const list  = document.getElementById('rlist');
-  const countN = document.getElementById('rcount-n');
-  const countL = document.getElementById('rcount-l');
-  const clrBtn = document.getElementById('search-clear');
+  var bar    = document.getElementById('search-bar');
+  var list   = document.getElementById('rlist');
+  var countN = document.getElementById('rcount-n');
+  var countL = document.getElementById('rcount-l');
+  var clrBtn = document.getElementById('search-clear');
 
   bar.style.display = 'block';
   clrBtn.classList.toggle('visible', SEARCH_QUERY.length > 0);
 
-  const q = SEARCH_QUERY.trim().toLowerCase();
+  var q = SEARCH_QUERY.trim().toLowerCase();
+  var pool = q ? allData.filter(function(p) { return searchFields(p, q); }) : allData.slice();
+  var results = applySort(pool);
 
   if (!q) {
-    countN.textContent = DATA.length;
-    countL.textContent = 'publications — type to search';
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-glyph">⌕</div>
-        <div class="empty-title">Start typing above</div>
-        <div class="empty-sub">Search across titles, authors, abstracts, instruments, DOIs, and notes.</div>
-      </div>`;
-    return;
+    countN.textContent = results.length;
+    countL.textContent = 'publications — type to filter';
+  } else {
+    countN.textContent = results.length;
+    countL.textContent = 'result' + (results.length !== 1 ? 's' : '') + ' for "' + SEARCH_QUERY.trim() + '"';
   }
-
-  const results = DATA.filter(p => searchFields(p, q));
-  countN.textContent = results.length;
-  countL.textContent = `result${results.length !== 1 ? 's' : ''} for "${SEARCH_QUERY.trim()}"`;
 
   if (!results.length) {
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-glyph">∅</div>
-        <div class="empty-title">No results</div>
-        <div class="empty-sub">No papers matched "${SEARCH_QUERY.trim()}". Try different keywords.</div>
-      </div>`;
+    list.innerHTML = '<div class="empty"><div class="empty-glyph">∅</div><div class="empty-title">No results</div><div class="empty-sub">No papers matched "' + SEARCH_QUERY.trim() + '". Try different keywords.</div></div>';
     return;
   }
 
-  list.innerHTML = results.map((p, i) => {
-    const hl = t => highlight(t, SEARCH_QUERY.trim());
-    const sub = p.device_function
-      ? `<span class="tag tag-s">${p.device_function}</span>`
+  list.innerHTML = results.map(function(p, i) {
+    var hl = function(t) { return highlight(t, SEARCH_QUERY.trim()); };
+    var sub = p.device_function
+      ? '<span class="tag tag-s">' + p.device_function + '</span>'
       : p.material
-      ? `<span class="tag tag-s">${p.material}</span>`
+      ? '<span class="tag tag-s">' + p.material + '</span>'
       : '';
-    const instrTag = p.instrument
-      ? `<span class="tag tag-i">${hl(p.instrument)}</span>` : '';
-    const cfgTag = p.configuration
-      ? `<span class="tag tag-c">${p.configuration}</span>` : '';
-    // Truncated abstract with read-more toggle
-    const abstract = p.abstract || '';
-    const shortAbs = abstract.length > 280 ? abstract.slice(0, 280).trim() + '…' : abstract;
-    const absHtml = abstract ? `
-      <div class="pub-abstract" id="abs-${p.id}">
-        <span class="abs-text">${hl(shortAbs)}</span>
-        ${abstract.length > 280 ? `<button class="pub-abstract-toggle" onclick="toggleAbs(${p.id}, this, ${JSON.stringify(abstract)}, ${JSON.stringify(SEARCH_QUERY.trim())})">+ show full abstract</button>` : ''}
-      </div>` : '';
-    return `
-    <div class="pub" style="animation-delay:${i * 0.03}s">
-      <div class="pub-title">${hl(p.title)}</div>
-      <div class="pub-authors">${hl(p.authors)}</div>
-      <div class="pub-tags">
-        <span class="tag tag-j">${hl(p.journal)}</span>
-        ${instrTag}${cfgTag}${sub}
-      </div>
-      <div class="pub-doi">DOI: <a href="https://doi.org/${p.doi}" target="_blank">${hl(p.doi)}</a></div>
-      ${p.notes ? `<div class="pub-notes">${hl(p.notes)}</div>` : ''}
-      ${absHtml}
-    </div>`;
+    var instrTag = p.instrument   ? '<span class="tag tag-i">' + hl(p.instrument)    + '</span>' : '';
+    var cfgTag   = p.configuration ? '<span class="tag tag-c">' + p.configuration    + '</span>' : '';
+    var yearTag  = p.year          ? '<span class="tag tag-y">' + p.year             + '</span>' : '';
+    var abstract = p.abstract || '';
+    var shortAbs = abstract.length > 280 ? abstract.slice(0, 280).trim() + '…' : abstract;
+    var absHtml  = abstract ? (
+      '<div class="pub-abstract" id="abs-' + p.id + '">' +
+        '<span class="abs-text">' + hl(shortAbs) + '</span>' +
+        (abstract.length > 280 ? '<button class="pub-abstract-toggle" id="absbtn-' + p.id + '" onclick="toggleAbs(' + p.id + ')">+ show full abstract</button>' : '') +
+      '</div>'
+    ) : '';
+    return (
+      '<div class="pub" style="animation-delay:' + (i * 0.03) + 's">' +
+        '<div class="pub-title">'   + hl(p.title)   + '</div>' +
+        '<div class="pub-authors">' + hl(p.authors)  + '</div>' +
+        '<div class="pub-tags">' +
+          '<span class="tag tag-j">' + hl(p.journal) + '</span>' +
+          yearTag + instrTag + cfgTag + sub +
+        '</div>' +
+        '<div class="pub-doi">DOI: <a href="https://doi.org/' + p.doi + '" target="_blank">' + hl(p.doi) + '</a></div>' +
+        (p.notes ? '<div class="pub-notes">' + hl(p.notes) + '</div>' : '') +
+        absHtml +
+      '</div>'
+    );
   }).join('');
 }
 
-function toggleAbs(id, btn, fullText, query) {
-  const span = btn.previousElementSibling;
-  const isShort = btn.textContent.startsWith('+');
-  span.innerHTML = highlight(isShort ? fullText : fullText.slice(0, 280).trim() + '…', query);
-  btn.textContent = isShort ? '− hide abstract' : '+ show full abstract';
+function toggleAbs(id) {
+  var btn      = document.getElementById('absbtn-' + id);
+  var span     = document.getElementById('abs-' + id).querySelector('.abs-text');
+  var fullText = abstractMap[id] || '';
+  var isShort  = btn.textContent.indexOf('+') === 0;
+  if (isShort) {
+    span.innerHTML = highlight(fullText, SEARCH_QUERY.trim());
+    btn.textContent = '− hide abstract';
+  } else {
+    var short = fullText.length > 280 ? fullText.slice(0, 280).trim() + '…' : fullText;
+    span.innerHTML = highlight(short, SEARCH_QUERY.trim());
+    btn.textContent = '+ show full abstract';
+  }
 }
 
 function clearSearch() {
