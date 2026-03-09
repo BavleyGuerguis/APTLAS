@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>APT Literature Database</title>
+  <title>A(P)TLAS</title>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     /* ── Tokens ─────────────────────────────────── */
@@ -90,17 +90,30 @@
     }
 
     .landing-h1 {
-      font-size: clamp(26px, 4vw, 46px);
+      font-size: clamp(38px, 7vw, 72px);
       font-weight: 700;
       letter-spacing: -0.03em;
       text-align: center;
-      line-height: 1.12;
+      line-height: 1.05;
       color: var(--white);
-      margin-bottom: 14px;
+      margin-bottom: 6px;
     }
 
     .landing-h1 em {
       font-style: normal;
+      color: var(--gold);
+    }
+
+    .landing-tagline {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--mid);
+      text-align: center;
+      margin-bottom: 10px;
+      letter-spacing: 0.01em;
+    }
+    .landing-tagline em {
+      font-style: italic;
       color: var(--gold);
     }
 
@@ -129,6 +142,23 @@
       font-size: 10px;
       color: rgba(255,255,255,0.18);
       letter-spacing: 0.12em;
+    }
+
+    .landing-disclaimer {
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(255,255,255,0.22);
+      line-height: 1.8;
+      text-align: center;
+      max-width: 480px;
+    }
+    .landing-disclaimer a {
+      color: rgba(232,164,39,0.5);
+      text-decoration: none;
+    }
+    .landing-disclaimer a:hover {
+      color: var(--gold);
     }
 
     /* Entry cards */
@@ -742,13 +772,14 @@
 ═══════════════════════════════════════════════════ -->
 <div id="landing">
 
-  <div class="landing-eyebrow">Atom Probe Tomography · Semiconductor Literature</div>
+  <div class="landing-eyebrow">Atom Probe Tomography · Literature Database</div>
 
-  <h1 class="landing-h1">Find the paper<br>for your <em>tip</em>.</h1>
+  <h1 class="landing-h1">A(P)TLAS</h1>
+  <p class="landing-tagline">Find the paper for your <em>tip</em>.</p>
 
   <p class="landing-sub">
-    A curated index of APT publications on semiconductor materials and devices.
-    Browse by material system, device type, or instrument.
+    A curated index of APT publications across materials, instruments, and techniques.
+    Browse by material system, instrument configuration, or keyword.
   </p>
 
   <div class="landing-prompt">// how do you want to search?</div>
@@ -758,7 +789,7 @@
     <div class="entry-card" onclick="startMode('material')">
       <div class="entry-glyph">⬡</div>
       <div class="entry-name">By Material</div>
-      <div class="entry-desc">Si, GaN, GaAs, InP and more. Start from the semiconductor system.</div>
+      <div class="entry-desc">Si, GaN, GaAs, InP and more. Start from the material system.</div>
       <div class="entry-cta">Select →</div>
     </div>
 
@@ -779,6 +810,11 @@
   </div>
 
   <div class="landing-byline">By Bavley Guerguis</div>
+  <div class="landing-disclaimer">
+    This list is not comprehensive — many relevant publications may be missing.<br>
+    Errors are possible. If you spot one, please email
+    <a href="mailto:guerguib@mcmaster.ca">guerguib@mcmaster.ca</a>.
+  </div>
 
 </div>
 
@@ -789,14 +825,6 @@
 
   <div class="topbar">
     <div class="topbar-left">
-      <div class="logo-mark">
-        <svg width="18" height="26" viewBox="0 0 18 26" fill="none">
-          <rect x="6" y="0" width="6" height="14" rx="1.5" fill="#1e1e1e" stroke="#333" stroke-width="0.8"/>
-          <path d="M6 13 L9 24 L12 13 Z" fill="#1e1e1e" stroke="#333" stroke-width="0.8"/>
-          <circle cx="9" cy="24" r="1.5" fill="#e8a427"/>
-        </svg>
-        <span class="logo-text">APT<span>·</span>LIT</span>
-      </div>
       <div class="mode-pill">
         <div class="mode-pill-dot"></div>
         <span class="mode-pill-text" id="mode-label">—</span>
