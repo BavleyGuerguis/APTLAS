@@ -86,22 +86,42 @@
       letter-spacing: 0.15em; color: var(--muted);
       text-transform: uppercase; margin-bottom: 20px;
     }
+    .entry-layout {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; max-width: 460px; width: 100%;
+    }
+    /* Keyword search bar — slim, full width */
+    .entry-search-card {
+      width: 100%;
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 12px 18px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .entry-search-card:hover {
+      border-color: var(--gold); background: rgba(232,164,39,0.04);
+    }
+    .entry-search-glyph { font-size: 16px; color: var(--muted); flex-shrink: 0; }
+    .entry-search-label { font-size: 13px; font-weight: 500; color: var(--fg); flex: 1; }
+    .entry-search-cta   { font-family: var(--mono); font-size: 10px; color: var(--gold); flex-shrink: 0; }
+    /* 2×2 grid for main cards */
     .entry-row {
-      display: flex; gap: 12px; flex-wrap: wrap;
-      justify-content: center; max-width: 860px; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; width: 100%;
     }
     .entry-card {
       background: var(--card); border: 1px solid var(--line);
-      border-radius: var(--radius); padding: 22px 20px;
-      width: 195px; cursor: pointer;
+      border-radius: var(--radius); padding: 20px 18px;
+      cursor: pointer;
       transition: border-color 0.2s, transform 0.15s, background 0.2s;
-      display: flex; flex-direction: column; gap: 8px;
+      display: flex; flex-direction: column; gap: 7px;
     }
     .entry-card:hover {
       border-color: var(--gold); background: rgba(232,164,39,0.04);
       transform: translateY(-2px);
     }
-    .entry-glyph { font-size: 26px; line-height: 1; }
+    .entry-glyph { font-size: 22px; line-height: 1; }
     .entry-name  { font-size: 13px; font-weight: 600; color: var(--fg); }
     .entry-desc  { font-size: 11px; color: var(--muted); line-height: 1.6; flex: 1; }
     .entry-cta   { font-family: var(--mono); font-size: 10px; color: var(--gold); }
@@ -355,15 +375,51 @@
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s, transform 0.1s;
       animation: fadeUp 0.3s ease both;
+      display: flex; align-items: flex-start; gap: 10px;
     }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(8px); }
       to   { opacity: 1; transform: translateY(0); }
     }
     .pub:hover { border-color: rgba(232,164,39,0.4); background: rgba(232,164,39,0.02); transform: translateY(-1px); }
+    .pub.checked { border-color: rgba(94,201,138,0.6); background: rgba(94,201,138,0.04); }
+    .pub.checked:hover { border-color: var(--green); }
+    .pub-check {
+      flex-shrink: 0; margin-top: 2px;
+      width: 16px; height: 16px; border-radius: 4px;
+      border: 1.5px solid var(--line);
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.15s, background 0.15s;
+      cursor: pointer;
+    }
+    .pub.checked .pub-check {
+      border-color: var(--green); background: var(--green);
+    }
+    .pub-check-tick {
+      display: none; color: var(--black);
+      font-size: 10px; font-weight: 700; line-height: 1;
+    }
+    .pub.checked .pub-check-tick { display: block; }
+    .pub-body { flex: 1; min-width: 0; }
     .pub-title  { font-size: 13px; font-weight: 500; color: var(--fg); line-height: 1.45; margin-bottom: 4px; }
     .pub-authors{ font-size: 11px; color: var(--mid); margin-bottom: 8px; }
     .pub-tags   { display: flex; flex-wrap: wrap; gap: 5px; }
+    /* Export button in rhead */
+    .export-btn {
+      display: none; align-items: center; gap: 6px;
+      background: rgba(94,201,138,0.1); border: 1px solid rgba(94,201,138,0.4);
+      color: var(--green); font-family: var(--mono); font-size: 10px;
+      padding: 6px 12px; border-radius: 4px; cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .export-btn.visible { display: flex; }
+    .export-btn:hover { background: rgba(94,201,138,0.18); border-color: var(--green); }
+    .export-count {
+      background: var(--green); color: var(--black);
+      font-size: 9px; font-weight: 700;
+      padding: 1px 5px; border-radius: 10px;
+    }
 
     /* Tags */
     .tag {
@@ -505,6 +561,27 @@
       color: var(--light);
     }
 
+    /* Poplawsky gold highlight */
+    .pub.pop {
+      border-color: rgba(232,164,39,0.7);
+      background: rgba(232,164,39,0.04);
+      box-shadow: 0 0 0 1px rgba(232,164,39,0.25);
+    }
+    .pub.pop:hover {
+      border-color: var(--gold);
+      background: rgba(232,164,39,0.08);
+    }
+    #detail.pop-detail .detail-type-badge { border-color: var(--gold); color: var(--gold); background: var(--gold-bg); }
+    #detail.pop-detail .detail-title      { color: var(--gold); }
+    #detail.pop-detail .detail-authors    { color: rgba(232,164,39,0.75); }
+    #detail.pop-detail .detail-section-title { color: var(--gold); border-color: rgba(232,164,39,0.25); }
+    #detail.pop-detail .detail-field      { border-color: rgba(232,164,39,0.2); background: rgba(232,164,39,0.04); }
+    #detail.pop-detail .detail-field-label{ color: rgba(232,164,39,0.6); }
+    #detail.pop-detail .detail-topbar     { border-color: rgba(232,164,39,0.25); }
+    #detail.pop-detail .back-btn          { border-color: rgba(232,164,39,0.35); color: var(--gold); }
+    #detail.pop-detail .detail-params-table tr { border-color: rgba(232,164,39,0.15); }
+    #detail.pop-detail .detail-params-table td:first-child { color: rgba(232,164,39,0.6); }
+
     /* Scrollbar */
     ::-webkit-scrollbar       { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -531,43 +608,52 @@
   <p class="landing-sub">
     A curated index of APT publications across materials, instruments, and techniques.
   </p>
-  <div class="landing-prompt">how do you want to search?</div>
-  <div class="entry-row">
+  <div class="landing-prompt">// how do you want to search?</div>
+  <div class="entry-layout">
 
-    <div class="entry-card" onclick="startMode('material')">
-      <div class="entry-glyph">⬡</div>
-      <div class="entry-name">By Material</div>
-      <div class="entry-desc">Start from the material system and narrow down by technique and instrument.</div>
-      <div class="entry-cta">Browse →</div>
+    <div class="entry-search-card" onclick="startMode('search')">
+      <span class="entry-search-glyph">⌕</span>
+      <span class="entry-search-label">Keyword Search</span>
+      <span class="entry-search-cta">Search →</span>
     </div>
 
-    <div class="entry-card" onclick="startMode('instrument')">
-      <div class="entry-glyph">◎</div>
-      <div class="entry-name">By Instrument</div>
-      <div class="entry-desc">Start from the instrument or configuration and filter by material and application.</div>
-      <div class="entry-cta">Browse →</div>
-    </div>
+    <div class="entry-row">
 
-    <div class="entry-card" onclick="startMode('topic')">
-      <div class="entry-glyph">◈</div>
-      <div class="entry-name">By Application</div>
-      <div class="entry-desc">Browse by application area and focus across all materials and instruments.</div>
-      <div class="entry-cta">Browse →</div>
-    </div>
+      <div class="entry-card" onclick="startMode('pubtype')">
+        <div class="entry-glyph">◻</div>
+        <div class="entry-name">By Type</div>
+        <div class="entry-desc">Filter by publication type — journal article, thesis, review, and more.</div>
+        <div class="entry-cta">Browse →</div>
+      </div>
 
-    <div class="entry-card" onclick="startMode('search')">
-      <div class="entry-glyph">⌕</div>
-      <div class="entry-name">Keyword Search</div>
-      <div class="entry-desc">Full-text search across titles, authors, abstracts, keywords, and DOIs.</div>
-      <div class="entry-cta">Search →</div>
+      <div class="entry-card" onclick="startMode('material')">
+        <div class="entry-glyph">⬡</div>
+        <div class="entry-name">By Material</div>
+        <div class="entry-desc">Start from the material system and narrow down by technique and instrument.</div>
+        <div class="entry-cta">Browse →</div>
+      </div>
+
+      <div class="entry-card" onclick="startMode('topic')">
+        <div class="entry-glyph">◈</div>
+        <div class="entry-name">By Application</div>
+        <div class="entry-desc">Browse by application area and focus across all materials and instruments.</div>
+        <div class="entry-cta">Browse →</div>
+      </div>
+
+      <div class="entry-card" onclick="startMode('instrument')">
+        <div class="entry-glyph">◎</div>
+        <div class="entry-name">By Instrument</div>
+        <div class="entry-desc">Start from the instrument or configuration and filter by material and application.</div>
+        <div class="entry-cta">Browse →</div>
+      </div>
+
     </div>
 
   </div>
   <div class="landing-byline">By Bavley Guerguis</div>
   <div class="landing-disclaimer">
-    NOTE: This database is not exhaustive, many relevant articles may be missing.<br>
-    Additionally, there may be mistakes, duplicate results, etc.<br>
-    If you spot one, please email: 
+    This list is not comprehensive &#8212; many relevant publications may be missing.<br>
+    Errors are possible. If you spot one, please email<br>
     <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#103;&#117;&#101;&#114;&#103;&#117;&#105;&#98;&#64;&#109;&#99;&#109;&#97;&#115;&#116;&#101;&#114;&#46;&#99;&#97;">&#103;&#117;&#101;&#114;&#103;&#117;&#105;&#98;&#64;&#109;&#99;&#109;&#97;&#115;&#116;&#101;&#114;&#46;&#99;&#97;</a>.
   </div>
 </div>
@@ -606,12 +692,17 @@
           <span class="rcount-n" id="rcount-n">—</span>
           <span class="rcount-label" id="rcount-l"></span>
         </div>
-        <div class="sort-row">
-          <span class="sort-label">sort:</span>
-          <button class="sort-btn active" id="sort-default" onclick="setSort('default')">default</button>
-          <button class="sort-btn" id="sort-newest"  onclick="setSort('newest')">newest</button>
-          <button class="sort-btn" id="sort-oldest"  onclick="setSort('oldest')">oldest</button>
-          <button class="sort-btn" id="sort-alpha"   onclick="setSort('alpha')">A→Z</button>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <button class="export-btn" id="export-btn" onclick="exportSelected()">
+            ↓ export selected <span class="export-count" id="export-count">0</span>
+          </button>
+          <div class="sort-row">
+            <span class="sort-label">sort:</span>
+            <button class="sort-btn active" id="sort-default" onclick="setSort('default')">default</button>
+            <button class="sort-btn" id="sort-newest"  onclick="setSort('newest')">newest</button>
+            <button class="sort-btn" id="sort-oldest"  onclick="setSort('oldest')">oldest</button>
+            <button class="sort-btn" id="sort-alpha"   onclick="setSort('alpha')">A→Z</button>
+          </div>
         </div>
       </div>
       <div class="rlist" id="rlist"></div>
@@ -683,6 +774,31 @@
 /* ════════════════════════════════════════
    DATA & STATE
 ════════════════════════════════════════ */
+
+// Subtopic lookup — maps topic -> list of valid focus values
+var TOPIC_SUBTOPICS = {
+  'Instrumentation and Technique Development': ['Hardware','Detector','Laser Sources','Ion Optics','Experimental Modes'],
+  'Specimen Preparation and Experimental Methodology': ['Electropolishing','FIB','Advanced Preparation Techniques','Cryogenic Preparation','Environmental Transfer','Optimized Acquisition Parameters'],
+  'Data Reconstruction and Physical Modeling': ['Reconstruction Algorithms','Field Evaporation Physics','Spatial Resolution','Simulations'],
+  'Data Analysis and Quantification Methods': ['Cluster Detection','Segregation Analysis','Proxigrams','Composition Profiles','Peak Ranging','Uncertainty Quantification'],
+  'Computational and Machine-Learning Approaches': ['Automated Ranging','Clustering Algorithms','Segmentation','Statistical Analysis','Automated Data Extraction'],
+  'Correlative and Multimodal Characterization': ['-'],
+  'Materials Science and Application Studies': ['Solid Solutions','Precipitation','Grain Boundaries and Interfaces','Dislocations, Stacking Faults and Twins','Microstructural Degradation Processes','Geology','Biological and Organic Materials'],
+};
+
+// Material subclass lookup — maps material_system -> list of subclasses
+var MATERIAL_SUBCLASSES = {
+  'Metals and Alloys': ['Steels and Cast Irons','Aluminium Alloys','Nickel and Cobalt Alloys','Titanium Alloys','Refractory and High-Entropy Alloys','Copper and Precious Metal Alloys','Magnesium and Light Metal Alloys','Intermetallics'],
+  'Semiconductors': ['Silicon and Germanium','III-V Compounds','II-VI Compounds','Oxide Semiconductors','Wide-Bandgap Semiconductors','Organic and 2D Semiconductors'],
+  'Ceramics and Oxides': ['Structural Ceramics','Functional Oxides','Nuclear Ceramics','Glasses and Amorphous Materials'],
+  'Functional and Energy Materials': ['Magnetic Materials','Battery and Fuel Cell Materials','Catalysts and Passivation Layers','Thermoelectric and Piezoelectric','Shape-Memory Alloys'],
+  'Thin Films and Nanostructures': ['Thin Films and Coatings','Nanoparticles and Nanoclusters','Nanowires and Quantum Dots','Multilayers and Heterostructures'],
+  'Nuclear and Irradiated Materials': ['Reactor Steels and Pressure Vessel Alloys','Zirconium Alloys','ODS and FM Steels','Irradiation-Induced Microstructure'],
+  'Geological and Extraterrestrial Materials': ['Minerals and Rocks','Meteorites and Lunar Materials','Gemstones and Fluid Inclusions'],
+  'Biomaterials and Organic Materials': ['Hard Tissue and Biominerals','Soft Tissue and Synthetic Polymers','Biogenic Minerals and Organics'],
+  'None': ['-'],
+};
+
 var allData = [];
 var abstractMap = {};
 var mode = null;
@@ -694,6 +810,9 @@ var F = {};
 // Year range
 var YEAR_MIN_GLOBAL = 1950, YEAR_MAX_GLOBAL = 2026;
 var YEAR_FROM = null, YEAR_TO = null;
+
+// Paper selections (cleared on mode change or goHome)
+var SELECTED = new Set();
 
 // Filter definitions per mode
 // Each entry: { key: data field, label: display name }
@@ -715,6 +834,12 @@ var MODE_FILTERS = {
     { key: 'instrument',        label: 'Instrument' },
     { key: 'journal',           label: 'Journal' },
   ],
+  pubtype: [
+    { key: 'material_system',   label: 'Material System' },
+    { key: 'topic',             label: 'Application' },
+    { key: 'journal',           label: 'Journal' },
+    { key: 'instrument',        label: 'Instrument' },
+  ],
 };
 
 // The "primary" filter shown always at top per mode (as big chips, not collapsible)
@@ -722,6 +847,7 @@ var MODE_PRIMARY = {
   material:   { key: 'material_system', label: 'Material System' },
   instrument: { key: 'configuration',   label: 'Configuration' },
   topic:      { key: 'topic',           label: 'Application' },
+  pubtype:    { key: 'type',            label: 'Publication Type' },
 };
 
 async function loadData() {
@@ -841,13 +967,31 @@ function buildSidebar() {
     return;
   }
 
-  // Primary filter (always visible, big chips at top)
+  // Primary filter
   var primary = MODE_PRIMARY[mode];
   buildPrimarySection(container, primary);
 
-  // Secondary filters
-  var filters = MODE_FILTERS[mode];
-  filters.forEach(function(def){ buildFilterSection(container, def); });
+  if(mode === 'material') {
+    // material_system (primary) → subclass → config → instrument → Application → subtopic → journal
+    buildSubclassSection(container);
+    buildFilterSection(container, { key: 'configuration', label: 'Configuration' });
+    buildFilterSection(container, { key: 'instrument',    label: 'Instrument' });
+    buildFilterSection(container, { key: 'topic',         label: 'Application' });
+    buildSubtopicSection(container);
+    buildFilterSection(container, { key: 'journal',       label: 'Journal' });
+  } else if(mode === 'topic') {
+    // topic (primary) → subtopic → material_system → subclass → config → instrument → journal
+    buildSubtopicSection(container);
+    buildFilterSection(container, { key: 'material_system', label: 'Material System' });
+    buildSubclassSection(container);
+    buildFilterSection(container, { key: 'configuration',   label: 'Configuration' });
+    buildFilterSection(container, { key: 'instrument',      label: 'Instrument' });
+    buildFilterSection(container, { key: 'journal',         label: 'Journal' });
+  } else {
+    // All other modes: use MODE_FILTERS list as-is
+    var filters = MODE_FILTERS[mode];
+    filters.forEach(function(def){ buildFilterSection(container, def); });
+  }
 
   // Year range (always last)
   buildYearSection(container);
@@ -869,6 +1013,41 @@ function buildFilterSection(container, def) {
   sec.innerHTML = '<div class="fsection-head" onclick="toggleSection(this.parentElement)"><span class="fsection-label">'+def.label+'</span><span class="fsection-caret">▾</span></div><div class="fsection-body" id="fbody-'+def.key+'"></div>';
   container.appendChild(sec);
   renderFilterOpts(def.key, 'fbody-'+def.key);
+}
+
+function buildSubtopicSection(container) {
+  // Get selected topics
+  var selectedTopics = F['topic'] && F['topic'].size > 0 ? Array.from(F['topic']) : Object.keys(TOPIC_SUBTOPICS);
+  // Collect valid subtopics
+  var subtopics = {};
+  selectedTopics.forEach(function(t){
+    (TOPIC_SUBTOPICS[t]||[]).forEach(function(s){ if(s && s!=='-') subtopics[s]=true; });
+  });
+  var opts = Object.keys(subtopics).sort();
+  if(!opts.length) return;
+  var sec = document.createElement('div');
+  sec.className = 'fsection collapsed';
+  sec.id = 'fsec-subtopic';
+  sec.innerHTML = '<div class="fsection-head" onclick="toggleSection(this.parentElement)"><span class="fsection-label">Subtopic</span><span class="fsection-caret">▾</span></div><div class="fsection-body" id="fbody-focus"></div>';
+  container.appendChild(sec);
+  renderFilterOpts('focus', 'fbody-focus');
+}
+
+function buildSubclassSection(container) {
+  // Get selected material systems
+  var selectedMats = F['material_system'] && F['material_system'].size > 0 ? Array.from(F['material_system']) : Object.keys(MATERIAL_SUBCLASSES);
+  var subclasses = {};
+  selectedMats.forEach(function(m){
+    (MATERIAL_SUBCLASSES[m]||[]).forEach(function(s){ if(s && s!=='-') subclasses[s]=true; });
+  });
+  var opts = Object.keys(subclasses).sort();
+  if(!opts.length) return;
+  var sec = document.createElement('div');
+  sec.className = 'fsection collapsed';
+  sec.id = 'fsec-material_subclass';
+  sec.innerHTML = '<div class="fsection-head" onclick="toggleSection(this.parentElement)"><span class="fsection-label">Material Subclass</span><span class="fsection-caret">▾</span></div><div class="fsection-body" id="fbody-material_subclass"></div>';
+  container.appendChild(sec);
+  renderFilterOpts('material_subclass', 'fbody-material_subclass');
 }
 
 function buildYearSection(container) {
@@ -991,17 +1170,73 @@ function getAllFilterKeys() {
   if(!mode || mode==='search') return [];
   var keys = [MODE_PRIMARY[mode].key];
   MODE_FILTERS[mode].forEach(function(d){ keys.push(d.key); });
+  if(mode==='topic')    keys.push('focus');
+  if(mode==='material') keys.push('material_subclass');
   return keys;
 }
 
 /* ════════════════════════════════════════
    FILTER INTERACTION
 ════════════════════════════════════════ */
+function toggleSelect(e, idx) {
+  e.stopPropagation();
+  if(SELECTED.has(idx)) SELECTED.delete(idx);
+  else SELECTED.add(idx);
+  // Update card classes in-place (no full re-render)
+  var card = document.getElementById('pub-'+idx);
+  if(card) {
+    card.classList.toggle('checked', SELECTED.has(idx));
+    var tick = card.querySelector('.pub-check-tick');
+    if(tick) tick.textContent = SELECTED.has(idx) ? '✓' : '';
+  }
+  updateExportBtn();
+}
+
+function updateExportBtn() {
+  var btn = document.getElementById('export-btn');
+  var cnt = document.getElementById('export-count');
+  if(!btn) return;
+  btn.classList.toggle('visible', SELECTED.size > 0);
+  if(cnt) cnt.textContent = SELECTED.size;
+}
+
+function exportSelected() {
+  if(!SELECTED.size) return;
+  var lines = ['APTLAS — Selected Papers', '═'.repeat(50), ''];
+  var num = 1;
+  SELECTED.forEach(function(idx){
+    var p = allData[idx];
+    if(!p) return;
+    lines.push(num+'. '+( p.title||'(no title)'));
+    if(p.authors)  lines.push('   Authors : '+p.authors);
+    if(p.year)     lines.push('   Year    : '+p.year);
+    if(p.doi)      lines.push('   DOI     : '+p.doi);
+    if(p.journal)  lines.push('   Journal : '+p.journal);
+    lines.push('');
+    num++;
+  });
+  lines.push('─'.repeat(50));
+  lines.push('Exported from APTLAS · aptlas.bavleyguerguis.com');
+  var NL = '\n';
+  var blob = new Blob([lines.join(NL)], {type:'text/plain'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'aptlas-selections.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
 function toggleFilter(key, val) {
   if(!F[key]) F[key] = new Set();
   if(F[key].has(val)) F[key].delete(val);
   else F[key].add(val);
-  refreshSidebar();
+  // Rebuild sidebar if primary key changed (affects dynamic subclass/subtopic sections)
+  var primaryKey = MODE_PRIMARY[mode] ? MODE_PRIMARY[mode].key : null;
+  if(key === primaryKey || key === 'topic' || key === 'material_system') {
+    buildSidebar();
+  } else {
+    refreshSidebar();
+  }
   renderResults();
 }
 
@@ -1023,6 +1258,8 @@ function resetAll() {
   SIDEBAR_QUERY = '';
   YEAR_FROM = null; YEAR_TO = null;
   SORT = 'default';
+  SELECTED.clear();
+  updateExportBtn();
   ['default','newest','oldest','alpha'].forEach(function(k){
     var btn=document.getElementById('sort-'+k);
     if(btn) btn.classList.toggle('active',k==='default');
@@ -1072,6 +1309,10 @@ function renderResults() {
   }).join('');
 }
 
+function isPoplawsky(p) {
+  return /poplawsky/i.test(p.authors||'');
+}
+
 function buildCard(p, i, hlQuery) {
   var hl = hlQuery ? function(t){ return highlight(t||'', hlQuery); } : function(t){ return escHtml(t||''); };
   var instrTag  = p.instrument    ? '<span class="tag tag-i">'+escHtml(p.instrument)+'</span>' : '';
@@ -1081,10 +1322,16 @@ function buildCard(p, i, hlQuery) {
   var topicTag  = p.topic         ? '<span class="tag tag-t">'+escHtml(p.topic)+'</span>' : '';
   var jTag      = p.journal       ? '<span class="tag tag-j">'+hl(p.journal)+'</span>' : '';
   var entryId   = p._idx;
-  return '<div class="pub" style="animation-delay:'+(i*0.025)+'s" onclick="openDetail('+entryId+')">'
+  var popCls    = isPoplawsky(p) ? ' pop' : '';
+  var chkCls    = SELECTED.has(entryId) ? ' checked' : '';
+  var tick      = SELECTED.has(entryId) ? '✓' : '';
+  return '<div class="pub'+popCls+chkCls+'" id="pub-'+entryId+'" style="animation-delay:'+(i*0.025)+'s">'
+    +'<div class="pub-check" onclick="toggleSelect(event,'+entryId+')"><span class="pub-check-tick">'+tick+'</span></div>'
+    +'<div class="pub-body" onclick="openDetail('+entryId+')">'
     +'<div class="pub-title">'+hl(p.title)+'</div>'
     +'<div class="pub-authors">'+hl(p.authors)+'</div>'
     +'<div class="pub-tags">'+jTag+yearTag+matTag+instrTag+cfgTag+topicTag+'</div>'
+    +'</div>'
     +'</div>';
 }
 
@@ -1145,7 +1392,7 @@ async function startMode(m) {
     if(btn) btn.classList.toggle('active',k==='default');
   });
 
-  var labels = { material:'By Material', instrument:'By Instrument', topic:'By Application', search:'Keyword Search' };
+  var labels = { material:'By Material', instrument:'By Instrument', topic:'By Application', pubtype:'By Type', search:'Keyword Search' };
   document.getElementById('mode-label').textContent = labels[m]||m;
 
   // Transition landing → app
@@ -1191,6 +1438,7 @@ function goHome() {
   var l=document.getElementById('landing');
   l.style.display='flex';
   setTimeout(function(){ l.classList.remove('out'); }, 10);
+  SELECTED.clear(); updateExportBtn();
   SEARCH_QUERY=''; mode=null;
   var inp=document.getElementById('search-input');
   if(inp) inp.value='';
@@ -1204,7 +1452,9 @@ function openDetail(doiOrId) {
   var entry = allData[doiOrId];
   if(!entry) return;
   renderDetail(entry);
-  document.getElementById('detail').classList.add('visible');
+  var det = document.getElementById('detail');
+  det.classList.add('visible');
+  det.classList.toggle('pop-detail', isPoplawsky(entry));
   document.getElementById('detail-body').scrollTop = 0;
 }
 
