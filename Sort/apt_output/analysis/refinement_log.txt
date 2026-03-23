@@ -1,0 +1,10 @@
+[21:31:39] =================================================================
+[21:31:39]   Bibliographic Refinement Script
+[21:31:39]   Model: mistral-nemo
+[21:31:39] =================================================================
+[21:31:39]   Fields to refine: ['title', 'abstract', 'authors', 'first_author_last_name', 'journal', 'year']
+[21:31:39]   All other fields will be preserved UNTOUCHED.
+
+[21:31:39] Connecting to Ollama ...
+[21:31:39] Ollama models available: ['mistral-nemo:latest', 'mistral:7b-instruct-q4_K_M', 'llama3.1:8b-instruct-q4_K_M', 'llama3.1:latest']
+[21:31:39] ERROR: Database file not found: C:\Users\guerguib\OneDrive - McMaster University\Materials Science and Engineering\Thesis\APTLAS\Sort\apt_output\analysis\paper_database.json

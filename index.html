@@ -12,9 +12,9 @@
       --card:    #161616;
       --card2:   #1c1c1c;
       --line:    #242424;
-      --muted:   #555555;
-      --mid:     #888888;
-      --light:   #cccccc;
+      --muted:   #7a7a7a;
+      --mid:     #aaaaaa;
+      --light:   #dddddd;
       --fg:      #f0f0f0;
       --gold:    #e8a427;
       --gold-dim:#7a4f0a;
@@ -169,10 +169,10 @@
       width: 6px; height: 6px; border-radius: 50%;
       background: var(--gold); flex-shrink: 0;
     }
-    .mode-pill-text { font-family: var(--mono); font-size: 10px; color: var(--mid); }
+    .mode-pill-text { font-family: var(--mono); font-size: 11px; color: var(--mid); }
     .change-btn {
       background: none; border: 1px solid var(--line);
-      color: var(--muted); font-family: var(--mono); font-size: 10px;
+      color: var(--muted); font-family: var(--mono); font-size: 11px;
       padding: 6px 12px; border-radius: 4px; cursor: pointer;
       transition: color 0.15s, border-color 0.15s;
     }
@@ -195,7 +195,7 @@
       flex-shrink: 0;
     }
     .sidebar-head .label {
-      font-family: var(--mono); font-size: 10px;
+      font-family: var(--mono); font-size: 11px;
       letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase;
     }
     .reset-btn {
@@ -214,8 +214,8 @@
       margin-bottom: 8px; cursor: pointer; user-select: none;
     }
     .fsection-label {
-      font-family: var(--mono); font-size: 9px;
-      letter-spacing: 0.12em; color: var(--muted);
+      font-family: var(--mono); font-size: 12px;
+      letter-spacing: 0.08em; color: var(--mid);
       text-transform: uppercase;
     }
     .fsection-caret {
@@ -239,12 +239,12 @@
       background: var(--gold-bg); border-color: rgba(232,164,39,0.35);
     }
     .fopt-label {
-      font-size: 11px; color: var(--light); line-height: 1.3;
+      font-size: 13px; color: var(--light); line-height: 1.3;
       flex: 1; text-align: left;
     }
     .fopt.sel .fopt-label { color: var(--gold); }
     .fopt-n {
-      font-family: var(--mono); font-size: 9px; color: var(--muted);
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
       margin-left: 6px; flex-shrink: 0;
     }
     .fopt.sel .fopt-n { color: rgba(232,164,39,0.6); }
@@ -302,7 +302,7 @@
     .year-sep { font-family: var(--mono); font-size: 10px; color: var(--muted); }
     .year-reset-btn {
       background: none; border: 1px solid var(--line);
-      color: var(--muted); font-family: var(--mono); font-size: 9px;
+      color: var(--muted); font-family: var(--mono); font-size: 11px;
       padding: 4px 7px; border-radius: 4px; cursor: pointer;
       width: 100%;
     }
@@ -324,22 +324,37 @@
       font-family: var(--mono); font-size: 20px;
       font-weight: 700; color: var(--gold); line-height: 1;
     }
-    .rcount-label { font-size: 13px; font-weight: 300; color: var(--mid); }
+    .rcount-label { font-size: 14px; font-weight: 400; color: var(--mid); }
 
     /* Sort row */
     .sort-row { display: flex; align-items: center; gap: 5px; }
-    .sort-label { font-family: var(--mono); font-size: 9px; color: var(--muted); }
+    .sort-label { font-family: var(--mono); font-size: 11px; color: var(--muted); }
     .sort-btn {
       background: none; border: 1px solid var(--line);
-      color: var(--muted); font-family: var(--mono); font-size: 9px;
+      color: var(--muted); font-family: var(--mono); font-size: 11px;
       padding: 4px 8px; border-radius: 4px; cursor: pointer;
       transition: border-color 0.15s, color 0.15s, background 0.15s;
     }
     .sort-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--fg); }
     .sort-btn.active { border-color: var(--gold); color: var(--gold); background: var(--gold-bg); }
 
+    /* Search scope toggle */
+    .scope-row {
+      display: flex; gap: 6px; align-items: center;
+      padding: 10px 24px 0; flex-shrink: 0;
+    }
+    .scope-label { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-right: 2px; }
+    .scope-btn {
+      background: none; border: 1px solid var(--line);
+      color: var(--muted); font-family: var(--mono); font-size: 11px;
+      padding: 4px 10px; border-radius: 12px; cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .scope-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--fg); }
+    .scope-btn.active { border-color: var(--gold); color: var(--gold); background: var(--gold-bg); }
+
     /* Search bar (search mode) */
-    .search-bar { padding: 14px 24px 0; flex-shrink: 0; }
+    .search-bar { padding: 10px 24px 0; flex-shrink: 0; }
     .search-wrap {
       display: flex; align-items: center; gap: 10px;
       background: rgba(255,255,255,0.04);
@@ -353,7 +368,7 @@
       color: var(--fg); font-family: var(--sans); font-size: 14px;
       padding: 12px 0; caret-color: var(--gold);
     }
-    .search-input::placeholder { color: rgba(255,255,255,0.18); }
+    .search-input::placeholder { color: rgba(255,255,255,0.35); }
     .search-clear {
       background: none; border: none; color: var(--muted);
       cursor: pointer; font-size: 11px; padding: 4px;
@@ -402,8 +417,8 @@
     }
     .pub.checked .pub-check-tick { display: block; }
     .pub-body { flex: 1; min-width: 0; }
-    .pub-title  { font-size: 13px; font-weight: 500; color: var(--fg); line-height: 1.45; margin-bottom: 4px; }
-    .pub-authors{ font-size: 11px; color: var(--mid); margin-bottom: 8px; }
+    .pub-title  { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.45; margin-bottom: 4px; }
+    .pub-authors{ font-size: 13px; color: var(--mid); margin-bottom: 8px; }
     .pub-tags   { display: flex; flex-wrap: wrap; gap: 5px; }
     /* Export button in rhead */
     .export-btn {
@@ -442,8 +457,8 @@
       padding: 64px 28px; text-align: center; gap: 12px;
     }
     .empty-glyph { font-size: 32px; opacity: 0.15; }
-    .empty-title { font-size: 14px; font-weight: 600; color: var(--muted); }
-    .empty-sub   { font-family: var(--mono); font-size: 10px; color: var(--line); max-width: 260px; line-height: 1.65; }
+    .empty-title { font-size: 14px; font-weight: 600; color: var(--mid); }
+    .empty-sub   { font-family: var(--mono); font-size: 11px; color: var(--muted); max-width: 260px; line-height: 1.65; }
 
     /* Highlight matches */
     mark { background: rgba(232,164,39,0.28); color: var(--fg); border-radius: 2px; padding: 0 1px; }
@@ -468,14 +483,14 @@
     }
     .back-btn {
       background: none; border: 1px solid var(--line);
-      color: var(--muted); font-family: var(--mono); font-size: 10px;
+      color: var(--muted); font-family: var(--mono); font-size: 11px;
       padding: 6px 12px; border-radius: 4px; cursor: pointer;
       transition: color 0.15s, border-color 0.15s;
     }
     .back-btn:hover { color: var(--fg); border-color: rgba(255,255,255,0.3); }
     .detail-breadcrumb {
-      font-family: var(--mono); font-size: 10px;
-      color: var(--muted); white-space: nowrap;
+      font-family: var(--mono); font-size: 11px;
+      color: var(--mid); white-space: nowrap;
       overflow: hidden; text-overflow: ellipsis;
     }
 
@@ -496,7 +511,7 @@
       color: var(--fg); margin-bottom: 10px;
     }
     .detail-authors {
-      font-size: 13px; color: var(--mid); margin-bottom: 20px;
+      font-size: 15px; color: var(--mid); margin-bottom: 20px;
       line-height: 1.6;
     }
     .detail-doi-row {
@@ -504,7 +519,7 @@
       margin-bottom: 24px; flex-wrap: wrap;
     }
     .detail-doi {
-      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
     }
     .detail-doi a { color: var(--blue); text-decoration: none; }
     .detail-doi a:hover { text-decoration: underline; }
@@ -512,16 +527,16 @@
 
     .detail-section { margin-bottom: 28px; }
     .detail-section-title {
-      font-family: var(--mono); font-size: 9px;
+      font-family: var(--mono); font-size: 10px;
       letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--muted); margin-bottom: 12px;
       padding-bottom: 6px; border-bottom: 1px solid var(--line);
     }
     .detail-abstract {
-      font-size: 13px; color: var(--light); line-height: 1.8;
+      font-size: 14px; color: var(--light); line-height: 1.8;
     }
     .detail-keywords {
-      font-size: 12px; color: var(--mid); line-height: 1.8;
+      font-size: 13px; color: var(--mid); line-height: 1.8;
       font-style: italic;
     }
 
@@ -534,12 +549,12 @@
       border-radius: var(--radius); padding: 12px 14px;
     }
     .detail-field-label {
-      font-family: var(--mono); font-size: 9px;
+      font-family: var(--mono); font-size: 10px;
       letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--muted); margin-bottom: 5px;
     }
     .detail-field-value {
-      font-size: 12px; color: var(--light); line-height: 1.4;
+      font-size: 13px; color: var(--light); line-height: 1.4;
       word-break: break-word;
     }
     .detail-field-value.empty-val { color: var(--muted); font-style: italic; }
@@ -662,12 +677,12 @@
 <div id="app">
   <div class="topbar">
     <div class="topbar-left">
+      <button class="change-btn" onclick="goHome()">⌂ Home</button>
       <div class="mode-pill">
         <div class="mode-pill-dot"></div>
         <span class="mode-pill-text" id="mode-label">—</span>
       </div>
     </div>
-    <button class="change-btn" onclick="goHome()">← Home</button>
   </div>
   <div class="layout">
     <aside class="sidebar">
@@ -678,6 +693,12 @@
       <div id="filters-container"></div>
     </aside>
     <main class="rpane">
+      <div id="scope-row" class="scope-row" style="display:none">
+        <span class="scope-label">search in:</span>
+        <button class="scope-btn active" id="scope-all"      onclick="setScope('all')">All fields</button>
+        <button class="scope-btn"        id="scope-title-abs" onclick="setScope('title-abs')">Title &amp; Abstract</button>
+        <button class="scope-btn"        id="scope-author"   onclick="setScope('author')">Author</button>
+      </div>
       <div id="search-bar" class="search-bar">
         <div class="search-wrap">
           <span class="search-icon">⌕</span>
@@ -713,7 +734,10 @@
 <!-- ═══════════ DETAIL ═══════════ -->
 <div id="detail">
   <div class="detail-topbar">
-    <button class="back-btn" onclick="closeDetail()">← Back</button>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="back-btn" onclick="closeDetail()">← Back</button>
+      <button class="back-btn" onclick="closeDetail();goHome()">⌂ Home</button>
+    </div>
     <div class="detail-breadcrumb" id="detail-breadcrumb"></div>
   </div>
   <div class="detail-body" id="detail-body"></div>
@@ -727,7 +751,7 @@
   var canvas = document.getElementById('bg-canvas');
   var ctx = canvas.getContext('2d');
   var W, H, dots = [], running = true, rafId = null;
-  var RF = 0.25, SPEED_MIN = 2.0, SPEED_MAX = 4.5, COUNT = 350, LIFE_MIN = 120, LIFE_MAX = 200;
+  var RF = 0.05, SPEED_MIN = 2.5, SPEED_MAX = 7.5, COUNT = 400, LIFE_MIN = 50, LIFE_MAX = 250;
 
   window._pauseCanvas = function(){ running = false; if(rafId){ cancelAnimationFrame(rafId); rafId=null; } };
   window._resumeCanvas= function(){ if(!running){ running=true; draw(); } };
@@ -735,7 +759,7 @@
   function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
   function makeDot(){
     var R=Math.min(W,H)*RF, cx=W/2, cy=H;
-    var angle=Math.random()*Math.PI;
+    var angle=Math.PI*0.25+Math.random()*(Math.PI*0.5);
     var sx=cx+R*Math.cos(angle), sy=cy-R*Math.sin(angle);
     var speed=SPEED_MIN+Math.random()*(SPEED_MAX-SPEED_MIN);
     var vx=speed*Math.cos(angle), vy=-speed*Math.sin(angle);
@@ -813,6 +837,8 @@ var YEAR_FROM = null, YEAR_TO = null;
 
 // Paper selections (cleared on mode change or goHome)
 var SELECTED = new Set();
+// Keyword search scope: 'all' | 'title-abs' | 'author'
+var SEARCH_SCOPE = 'all';
 
 // Filter definitions per mode
 // Each entry: { key: data field, label: display name }
@@ -963,7 +989,15 @@ function buildSidebar() {
   SIDEBAR_QUERY = '';
 
   if(mode === 'search') {
-    container.innerHTML = '<div style="padding:16px 14px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8"><strong style="color:rgba(255,255,255,0.4)">Keyword search</strong><br><br>Searches across:<br>— titles &amp; authors<br>— abstracts<br>— keywords<br>— instruments<br>— DOIs<br><br>Multiple words = AND.</div>';
+    buildFilterSection(container, { key: 'type',           label: 'Publication Type' });
+    buildFilterSection(container, { key: 'material_system',label: 'Material System' });
+    buildSubclassSection(container);
+    buildFilterSection(container, { key: 'topic',          label: 'Application' });
+    buildSubtopicSection(container);
+    buildFilterSection(container, { key: 'configuration',  label: 'Configuration' });
+    buildFilterSection(container, { key: 'instrument',     label: 'Instrument' });
+    buildFilterSection(container, { key: 'journal',        label: 'Journal' });
+    buildYearSection(container);
     return;
   }
 
@@ -1167,7 +1201,8 @@ function refreshSidebar() {
 }
 
 function getAllFilterKeys() {
-  if(!mode || mode==='search') return [];
+  if(!mode) return [];
+  if(mode==='search') return ['type','material_system','material_subclass','topic','focus','configuration','instrument','journal'];
   var keys = [MODE_PRIMARY[mode].key];
   MODE_FILTERS[mode].forEach(function(d){ keys.push(d.key); });
   if(mode==='topic')    keys.push('focus');
@@ -1216,7 +1251,7 @@ function exportSelected() {
     num++;
   });
   lines.push('─'.repeat(50));
-  lines.push('Exported from APTLAS · aptlas.bavleyguerguis.com');
+  lines.push('Exported from APTLAS · aptlas.github.io');
   var NL = '\n';
   var blob = new Blob([lines.join(NL)], {type:'text/plain'});
   var a = document.createElement('a');
@@ -1232,12 +1267,17 @@ function toggleFilter(key, val) {
   else F[key].add(val);
   // Rebuild sidebar if primary key changed (affects dynamic subclass/subtopic sections)
   var primaryKey = MODE_PRIMARY[mode] ? MODE_PRIMARY[mode].key : null;
-  if(key === primaryKey || key === 'topic' || key === 'material_system') {
+  if(mode === 'search') {
+    if(key === 'topic' || key === 'material_system') buildSidebar();
+    else refreshSidebar();
+    renderSearch();
+  } else if(key === primaryKey || key === 'topic' || key === 'material_system') {
     buildSidebar();
+    renderResults();
   } else {
     refreshSidebar();
+    renderResults();
   }
-  renderResults();
 }
 
 function resetYear() {
@@ -1258,6 +1298,7 @@ function resetAll() {
   SIDEBAR_QUERY = '';
   YEAR_FROM = null; YEAR_TO = null;
   SORT = 'default';
+  SEARCH_SCOPE = 'all';
   SELECTED.clear();
   updateExportBtn();
   ['default','newest','oldest','alpha'].forEach(function(k){
@@ -1266,7 +1307,7 @@ function resetAll() {
   });
   var inp=document.getElementById('search-input'); if(inp) inp.value='';
   var clr=document.getElementById('search-clear'); if(clr) clr.classList.remove('visible');
-  if(mode==='search'){ SEARCH_QUERY=''; renderSearch(); }
+  if(mode==='search'){ SEARCH_QUERY=''; setScope('all'); buildSidebar(); renderSearch(); }
   else { SIDEBAR_QUERY=''; buildSidebar(); renderResults(); }
 }
 
@@ -1339,11 +1380,39 @@ function buildCard(p, i, hlQuery) {
    SEARCH MODE
 ════════════════════════════════════════ */
 function searchFields(p, q) {
-  var hay = [p.title,p.authors,p.journal,p.instrument,p.configuration,
-    p.material_system,p.material_subclass,p.topic,p.focus,
-    p.doi,p.keywords,p.abstract
-  ].filter(Boolean).join(' ').toLowerCase();
+  var fields;
+  if(SEARCH_SCOPE === 'title-abs') {
+    fields = [p.title, p.abstract];
+  } else if(SEARCH_SCOPE === 'author') {
+    fields = [p.authors, p.first_author_last_name];
+  } else {
+    fields = [p.title,p.authors,p.first_author_last_name,p.journal,p.instrument,
+      p.configuration,p.material_system,p.material_subclass,p.topic,p.focus,
+      p.doi,p.keywords,p.abstract];
+  }
+  var hay = fields.filter(Boolean).join(' ').toLowerCase();
   return q.split(/\s+/).filter(Boolean).every(function(w){ return hay.indexOf(w)>=0; });
+}
+
+function setScope(s) {
+  SEARCH_SCOPE = s;
+  ['all','title-abs','author'].forEach(function(k){
+    var b = document.getElementById('scope-'+k);
+    if(b) b.classList.toggle('active', k===s);
+  });
+  renderSearch();
+}
+
+// Returns true if paper p passes all active F filters and year range
+function filterPass(p) {
+  for(var key in F) {
+    if(!F[key] || F[key].size === 0) continue;
+    var pval = String(p[key]||'').trim();
+    if(!F[key].has(pval)) return false;
+  }
+  if(YEAR_FROM !== null && Number(p.year) < YEAR_FROM) return false;
+  if(YEAR_TO   !== null && Number(p.year) > YEAR_TO)   return false;
+  return true;
 }
 
 function renderSearch() {
@@ -1357,6 +1426,8 @@ function renderSearch() {
 
   var q = SEARCH_QUERY.trim().toLowerCase();
   var pool = q ? allData.filter(function(p){ return searchFields(p,q); }) : allData.slice();
+  // Apply sidebar filters in search mode
+  pool = pool.filter(function(p){ return filterPass(p); });
   var results = applySort(pool);
 
   countN.textContent = results.length;
@@ -1405,13 +1476,16 @@ async function startMode(m) {
     buildSidebar();
     var sinp = document.getElementById('search-input');
     var sbar = document.getElementById('search-bar');
+    var scopeRow = document.getElementById('scope-row');
     if(m==='search'){
       sbar.style.display='block';
-      if(sinp) sinp.placeholder = 'titles, authors, abstracts, keywords, DOIs…';
+      if(scopeRow) scopeRow.style.display='flex';
+      if(sinp) sinp.placeholder = 'search across all fields…';
       renderSearch();
       setTimeout(function(){ if(sinp) sinp.focus(); }, 80);
     } else {
       sbar.style.display='block';
+      if(scopeRow) scopeRow.style.display='none';
       if(sinp) sinp.placeholder = 'search within results…';
       renderResults();
     }
@@ -1432,6 +1506,7 @@ async function startMode(m) {
 function goHome() {
   document.getElementById('app').classList.remove('visible');
   var sbar=document.getElementById('search-bar'); if(sbar) sbar.style.display='none';
+  var scopeRow=document.getElementById('scope-row'); if(scopeRow) scopeRow.style.display='none';
   var sinp=document.getElementById('search-input'); if(sinp) sinp.value='';
   document.getElementById('bg-canvas').style.display='block';
   window._resumeCanvas();
