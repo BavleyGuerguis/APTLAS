@@ -878,7 +878,7 @@ var MODE_PRIMARY = {
 
 async function loadData() {
   try {
-    var r = await fetch('data.json');
+    var r = await fetch('data.json?v=2');
     allData = await r.json();
   } catch(e) {
     allData = [];
