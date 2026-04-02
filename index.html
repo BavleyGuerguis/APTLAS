@@ -55,7 +55,7 @@
       align-items: center; justify-content: center;
       padding: 60px 24px;
       gap: 0;
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 0.15s ease, transform 0.15s ease;
     }
     #landing.out { opacity: 0; transform: translateY(-18px); pointer-events: none; }
 
@@ -751,7 +751,7 @@
   var canvas = document.getElementById('bg-canvas');
   var ctx = canvas.getContext('2d');
   var W, H, dots = [], running = true, rafId = null;
-  var RF = 0.05, SPEED_MIN = 2.5, SPEED_MAX = 7.5, COUNT = 400, LIFE_MIN = 50, LIFE_MAX = 250;
+  var RF = 0.05, SPEED_MIN = 1, SPEED_MAX = 5, COUNT = 200, LIFE_MIN = 50, LIFE_MAX = 400;
 
   window._pauseCanvas = function(){ running = false; if(rafId){ cancelAnimationFrame(rafId); rafId=null; } };
   window._resumeCanvas= function(){ if(!running){ running=true; draw(); } };
@@ -878,7 +878,7 @@ var MODE_PRIMARY = {
 
 async function loadData() {
   try {
-    var r = await fetch('data.json?v=2');
+    var r = await fetch('data.json?v=3');
     allData = await r.json();
   } catch(e) {
     allData = [];
@@ -1345,9 +1345,24 @@ function renderResults() {
     list.innerHTML='<div class="empty"><div class="empty-glyph">∅</div><div class="empty-title">No results</div><div class="empty-sub">Try removing some filters to broaden the search.</div></div>';
     return;
   }
-  list.innerHTML = results.map(function(p, i){
-    return buildCard(p, i, '');
-  }).join('');
+
+  // Render first 60 cards immediately, stream the rest in chunks
+  var CHUNK = 60;
+  list.innerHTML = results.slice(0, CHUNK).map(function(p,i){ return buildCard(p,i,''); }).join('');
+  if(results.length <= CHUNK) return;
+  var pos = CHUNK;
+  function addChunk() {
+    if(pos >= results.length) return;
+    var frag = document.createDocumentFragment();
+    var end = Math.min(pos + CHUNK, results.length);
+    var tmp = document.createElement('div');
+    tmp.innerHTML = results.slice(pos, end).map(function(p,i){ return buildCard(p, pos+i, ''); }).join('');
+    while(tmp.firstChild) frag.appendChild(tmp.firstChild);
+    list.appendChild(frag);
+    pos = end;
+    setTimeout(addChunk, 0);
+  }
+  setTimeout(addChunk, 0);
 }
 
 function isPoplawsky(p) {
@@ -1466,41 +1481,48 @@ async function startMode(m) {
   var labels = { material:'By Material', instrument:'By Instrument', topic:'By Application', pubtype:'By Type', search:'Keyword Search' };
   document.getElementById('mode-label').textContent = labels[m]||m;
 
-  // Transition landing → app
-  document.getElementById('landing').classList.add('out');
-  setTimeout(function(){
-    document.getElementById('landing').style.display='none';
-    document.getElementById('bg-canvas').style.display='none';
-    window._pauseCanvas();
-    document.getElementById('app').classList.add('visible');
-    buildSidebar();
-    var sinp = document.getElementById('search-input');
-    var sbar = document.getElementById('search-bar');
-    var scopeRow = document.getElementById('scope-row');
-    if(m==='search'){
-      sbar.style.display='block';
-      if(scopeRow) scopeRow.style.display='flex';
-      if(sinp) sinp.placeholder = 'search across all fields…';
-      renderSearch();
-      setTimeout(function(){ if(sinp) sinp.focus(); }, 80);
-    } else {
-      sbar.style.display='block';
-      if(scopeRow) scopeRow.style.display='none';
-      if(sinp) sinp.placeholder = 'search within results…';
-      renderResults();
-    }
-    // Wire search input (once, handles both modes)
-    if(sinp && !sinp._wired){
-      sinp._wired=true;
-      sinp.addEventListener('input',function(){
-        if(mode==='search'){ SEARCH_QUERY=sinp.value; renderSearch(); }
-        else { SIDEBAR_QUERY=sinp.value; var clr=document.getElementById('search-clear'); if(clr) clr.classList.toggle('visible',sinp.value.length>0); renderResults(); }
-      });
-      sinp.addEventListener('keydown',function(e){
-        if(e.key==='Escape'){ if(mode==='search') clearSearch(); else clearSidebarSearch(); }
-      });
-    }
-  }, 520);
+  // Show app shell instantly
+  var landing = document.getElementById('landing');
+  landing.classList.add('out');
+  landing.style.display = 'none';
+  document.getElementById('bg-canvas').style.display = 'none';
+  window._pauseCanvas();
+  document.getElementById('app').classList.add('visible');
+
+  var sinp = document.getElementById('search-input');
+  var sbar = document.getElementById('search-bar');
+  var scopeRow = document.getElementById('scope-row');
+  sbar.style.display = 'block';
+
+  if(m==='search'){
+    if(scopeRow) scopeRow.style.display='flex';
+    if(sinp) sinp.placeholder = 'search across all fields…';
+  } else {
+    if(scopeRow) scopeRow.style.display='none';
+    if(sinp) sinp.placeholder = 'search within results…';
+  }
+
+  // Wire input once
+  if(sinp && !sinp._wired){
+    sinp._wired=true;
+    sinp.addEventListener('input',function(){
+      if(mode==='search'){ SEARCH_QUERY=sinp.value; renderSearch(); }
+      else { SIDEBAR_QUERY=sinp.value; var clr=document.getElementById('search-clear'); if(clr) clr.classList.toggle('visible',sinp.value.length>0); renderResults(); }
+    });
+    sinp.addEventListener('keydown',function(e){
+      if(e.key==='Escape'){ if(mode==='search') clearSearch(); else clearSidebarSearch(); }
+    });
+  }
+
+  // Sidebar is lightweight — render immediately
+  buildSidebar();
+  // Cards render in chunks so UI stays responsive
+  if(m==='search'){
+    renderSearch();
+    setTimeout(function(){ if(sinp) sinp.focus(); }, 40);
+  } else {
+    renderResults();
+  }
 }
 
 function goHome() {
