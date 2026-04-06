@@ -850,6 +850,8 @@ var MODE_FILTERS = {
     { key: 'journal',           label: 'Journal' },
   ],
   instrument: [
+    { key: 'instrument',        label: 'Instrument Model' },
+    { key: 'analysis_mode',     label: 'Analysis Mode' },
     { key: 'material_system',   label: 'Material System' },
     { key: 'topic',             label: 'Application' },
     { key: 'journal',           label: 'Journal' },
@@ -931,6 +933,17 @@ function countFor(key, val) {
   }).length;
 }
 
+var INSTRUMENT_ORDER = [
+  'LAWATAP',
+  'LEAP 3000X HR','LEAP 3000X Si',
+  'LEAP 4000X HR','LEAP 4000X Si',
+  'LEAP 5000 XR','LEAP 5000 XS',
+  'LEAP 6000 XR',
+  'Invizo 6000',
+  'Photonic Atom Probe',
+  'EIKOS','EIKOS-UV',
+];
+
 function uniqVals(key) {
   var seen = {};
   allData.forEach(function(e){
@@ -940,6 +953,15 @@ function uniqVals(key) {
   var pairs = Object.keys(seen).map(function(v){ return [v, seen[v]]; });
   if(key === 'year') {
     pairs.sort(function(a,b){ return Number(b[0])-Number(a[0]); });
+  } else if(key === 'instrument') {
+    pairs.sort(function(a,b){
+      var ai = INSTRUMENT_ORDER.indexOf(a[0]);
+      var bi = INSTRUMENT_ORDER.indexOf(b[0]);
+      if(ai === -1) ai = 999;
+      if(bi === -1) bi = 999;
+      if(ai !== bi) return ai - bi;
+      return b[1] - a[1]; // fallback: count desc for unknowns
+    });
   } else {
     pairs.sort(function(a,b){
       if(a[0]==='None' && b[0]!=='None') return 1;
@@ -995,7 +1017,8 @@ function buildSidebar() {
     buildFilterSection(container, { key: 'topic',          label: 'Application' });
     buildSubtopicSection(container);
     buildFilterSection(container, { key: 'configuration',  label: 'Configuration' });
-    buildFilterSection(container, { key: 'instrument',     label: 'Instrument' });
+    buildFilterSection(container, { key: 'instrument',     label: 'Instrument Model' });
+    buildFilterSection(container, { key: 'analysis_mode',  label: 'Analysis Mode' });
     buildFilterSection(container, { key: 'journal',        label: 'Journal' });
     buildYearSection(container);
     return;
@@ -1021,6 +1044,15 @@ function buildSidebar() {
     buildFilterSection(container, { key: 'configuration',   label: 'Configuration' });
     buildFilterSection(container, { key: 'instrument',      label: 'Instrument' });
     buildFilterSection(container, { key: 'journal',         label: 'Journal' });
+  } else if(mode === 'instrument') {
+    // configuration (primary) → instrument model → analysis mode → material → application → journal
+    buildFilterSection(container, { key: 'instrument',    label: 'Instrument Model' });
+    buildFilterSection(container, { key: 'analysis_mode', label: 'Analysis Mode' });
+    buildFilterSection(container, { key: 'material_system', label: 'Material System' });
+    buildSubclassSection(container);
+    buildFilterSection(container, { key: 'topic',         label: 'Application' });
+    buildSubtopicSection(container);
+    buildFilterSection(container, { key: 'journal',       label: 'Journal' });
   } else {
     // All other modes: use MODE_FILTERS list as-is
     var filters = MODE_FILTERS[mode];
@@ -1202,11 +1234,12 @@ function refreshSidebar() {
 
 function getAllFilterKeys() {
   if(!mode) return [];
-  if(mode==='search') return ['type','material_system','material_subclass','topic','focus','configuration','instrument','journal'];
+  if(mode==='search') return ['type','material_system','material_subclass','topic','focus','configuration','instrument','analysis_mode','journal'];
   var keys = [MODE_PRIMARY[mode].key];
   MODE_FILTERS[mode].forEach(function(d){ keys.push(d.key); });
-  if(mode==='topic')    keys.push('focus');
-  if(mode==='material') keys.push('material_subclass');
+  if(mode==='topic')      keys.push('focus');
+  if(mode==='material')   keys.push('material_subclass');
+  if(mode==='instrument') { keys.push('instrument'); keys.push('analysis_mode'); keys.push('material_subclass'); }
   return keys;
 }
 
@@ -1272,6 +1305,9 @@ function toggleFilter(key, val) {
     else refreshSidebar();
     renderSearch();
   } else if(key === primaryKey || key === 'topic' || key === 'material_system') {
+    buildSidebar();
+    renderResults();
+  } else if(key === 'configuration' && mode === 'instrument') {
     buildSidebar();
     renderResults();
   } else {
