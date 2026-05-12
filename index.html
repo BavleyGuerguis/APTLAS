@@ -39,11 +39,7 @@
       overflow-x: hidden;
     }
 
-    /* ── Canvas ── */
-    #bg-canvas {
-      position: fixed; inset: 0; z-index: 0;
-      pointer-events: none; opacity: 0.7;
-    }
+
 
     /* ══════════════════════════════════════
        LANDING
@@ -61,7 +57,7 @@
 
     .landing-eyebrow {
       font-family: var(--mono); font-size: 10px;
-      letter-spacing: 0.2em; color: var(--muted);
+      letter-spacing: 0.2em; color: var(--gold);
       text-transform: uppercase; margin-bottom: 18px;
     }
     .landing-h1 {
@@ -83,7 +79,7 @@
     }
     .landing-prompt {
       font-family: var(--mono); font-size: 10px;
-      letter-spacing: 0.15em; color: var(--muted);
+      letter-spacing: 0.15em; color: var(--gold);
       text-transform: uppercase; margin-bottom: 20px;
     }
     .entry-layout {
@@ -127,8 +123,8 @@
     .entry-cta   { font-family: var(--mono); font-size: 10px; color: var(--gold); }
     .landing-byline {
       margin-top: 44px;
-      font-family: var(--mono); font-size: 10px;
-      color: rgba(255,255,255,0.18); letter-spacing: 0.12em;
+      font-family: var(--mono); font-size: 12px;
+      color: var(--gold); letter-spacing: 0.12em;
     }
     .landing-disclaimer {
       margin-top: 10px;
@@ -138,6 +134,12 @@
     }
     .landing-disclaimer a { color: rgba(232,164,39,0.5); text-decoration: none; }
     .landing-disclaimer a:hover { color: var(--gold); }
+
+    /* ── Canvas ── */
+    #bg-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: 0.7;
+    }
 
     /* ══════════════════════════════════════
        APP SHELL
@@ -609,9 +611,98 @@
       .detail-body { padding: 20px 16px; }
       .detail-grid { grid-template-columns: 1fr 1fr; }
     }
+
+    /* ── Flag / Report button on card ── */
+    .pub-flag {
+      flex-shrink: 0; margin-top: 1px;
+      background: none; border: none; cursor: pointer;
+      color: rgba(224,92,92,0.6); font-size: 12px; padding: 2px 4px;
+      border-radius: 3px; line-height: 1;
+      transition: color 0.15s, background 0.15s;
+      align-self: flex-start;
+    }
+    .pub-flag:hover { color: #e05c5c; background: rgba(224,92,92,0.12); }
+
+    /* ── Report modal ── */
+    #report-overlay {
+      position: fixed; inset: 0; z-index: 10;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(3px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.18s ease;
+    }
+    #report-overlay.visible { opacity: 1; pointer-events: all; }
+    #report-modal {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 24px 26px;
+      width: 100%; max-width: 440px; display: flex;
+      flex-direction: column; gap: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+    .report-title { font-size: 14px; font-weight: 600; color: var(--fg); }
+    .report-paper-ref {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      line-height: 1.6; padding: 8px 10px;
+      background: var(--card2); border-radius: 4px;
+      border: 1px solid var(--line);
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .report-label {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .report-checklist {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4px 10px;
+      background: var(--card2); border: 1px solid var(--line);
+      border-radius: 4px; padding: 10px 12px;
+    }
+    .report-check-item {
+      display: flex; align-items: center; gap: 7px;
+      cursor: pointer; user-select: none;
+    }
+    .report-check-item input[type=checkbox] {
+      accent-color: var(--gold); width: 13px; height: 13px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .report-check-item span {
+      font-size: 12px; color: var(--light); line-height: 1.3;
+    }
+    .report-textarea {
+      width: 100%; background: var(--card2);
+      border: 1px solid var(--line); border-radius: 4px;
+      color: var(--fg); font-family: var(--sans); font-size: 13px;
+      padding: 8px 10px; outline: none;
+      transition: border-color 0.15s;
+    }
+    .report-textarea { resize: vertical; min-height: 80px; }
+    .report-btns { display: flex; gap: 8px; justify-content: flex-end; }
+    .report-cancel {
+      background: none; border: 1px solid var(--line);
+      color: var(--muted); font-family: var(--mono); font-size: 11px;
+      padding: 7px 14px; border-radius: 4px; cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .report-cancel:hover { color: var(--fg); border-color: rgba(255,255,255,0.3); }
+    .report-submit {
+      background: rgba(224,92,92,0.12); border: 1px solid rgba(224,92,92,0.4);
+      color: #e05c5c; font-family: var(--mono); font-size: 11px;
+      padding: 7px 14px; border-radius: 4px; cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .report-submit:hover { background: rgba(224,92,92,0.22); border-color: #e05c5c; }
+    .report-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .report-feedback {
+      font-family: var(--mono); font-size: 11px; text-align: center;
+      padding: 6px; border-radius: 4px; display: none;
+    }
+    .report-feedback.ok  { color: var(--green); background: rgba(94,201,138,0.08); display: block; }
+    .report-feedback.err { color: #e05c5c; background: rgba(224,92,92,0.08); display: block; }
   </style>
 </head>
 <body>
+
 
 <canvas id="bg-canvas"></canvas>
 
@@ -623,7 +714,7 @@
   <p class="landing-sub">
     A curated index of APT publications across materials, instruments, and techniques.
   </p>
-  <div class="landing-prompt">// how do you want to search?</div>
+  <div class="landing-prompt">how do you want to search?</div>
   <div class="entry-layout">
 
     <div class="entry-search-card" onclick="startMode('search')">
@@ -667,9 +758,8 @@
   </div>
   <div class="landing-byline">By Bavley Guerguis</div>
   <div class="landing-disclaimer">
-    This list is not comprehensive &#8212; many relevant publications may be missing.<br>
-    Errors are possible. If you spot one, please email<br>
-    <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#103;&#117;&#101;&#114;&#103;&#117;&#105;&#98;&#64;&#109;&#99;&#109;&#97;&#115;&#116;&#101;&#114;&#46;&#99;&#97;">&#103;&#117;&#101;&#114;&#103;&#117;&#105;&#98;&#64;&#109;&#99;&#109;&#97;&#115;&#116;&#101;&#114;&#46;&#99;&#97;</a>.
+    This list is not comprehensive - many relevant publications may be missing.<br>
+    Found an error? Use the <span style="color:#e05c5c">⚑</span> flag on any card to report it.<br>
   </div>
 </div>
 
@@ -737,10 +827,46 @@
     <div style="display:flex;align-items:center;gap:8px;">
       <button class="back-btn" onclick="closeDetail()">← Back</button>
       <button class="back-btn" onclick="closeDetail();goHome()">⌂ Home</button>
+      <button class="back-btn" id="detail-report-btn" onclick="openReportFromDetail()" style="color:#e05c5c;border-color:rgba(224,92,92,0.35);">&#9873; Report Error</button>
     </div>
     <div class="detail-breadcrumb" id="detail-breadcrumb"></div>
   </div>
   <div class="detail-body" id="detail-body"></div>
+</div>
+
+<!-- ═══════════ REPORT MODAL ═══════════ -->
+<div id="report-overlay" onclick="closeReport(event)">
+  <div id="report-modal">
+    <div class="report-title">&#9873; Report an Error</div>
+    <div class="report-paper-ref" id="report-ref"></div>
+    <div>
+      <div class="report-label">Which fields are incorrect? (select all that apply)</div>
+      <div class="report-checklist" id="report-checklist">
+        <label class="report-check-item"><input type="checkbox" value="Title"><span>Title</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Authors"><span>Authors</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Year"><span>Year</span></label>
+        <label class="report-check-item"><input type="checkbox" value="DOI"><span>DOI</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Journal"><span>Journal</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Publication Type"><span>Publication Type</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Material System"><span>Material System</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Instrument"><span>Instrument</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Configuration"><span>Configuration</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Application / Topic"><span>Application / Topic</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Analysis Mode"><span>Analysis Mode</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Abstract"><span>Abstract</span></label>
+        <label class="report-check-item"><input type="checkbox" value="Other"><span>Other</span></label>
+      </div>
+    </div>
+    <div>
+      <div class="report-label">What is the correct value? (or describe the issue)</div>
+      <textarea class="report-textarea" id="report-correction" placeholder="Enter the correct value or describe what&#39;s wrong&#8230;"></textarea>
+    </div>
+    <div class="report-feedback" id="report-feedback"></div>
+    <div class="report-btns">
+      <button class="report-cancel" onclick="closeReport()">Cancel</button>
+      <button class="report-submit" id="report-submit-btn" onclick="submitReport()">Submit Report</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -757,9 +883,14 @@
   window._resumeCanvas= function(){ if(!running){ running=true; draw(); } };
 
   function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+  function getOriginY(){
+    var el = document.querySelector('.landing-byline');
+    if(el){ var rect = el.getBoundingClientRect(); return rect.top + window.scrollY + 40; }
+    return H;
+  }
   function makeDot(){
-    var R=Math.min(W,H)*RF, cx=W/2, cy=H;
-    var angle=Math.PI*0.25+Math.random()*(Math.PI*0.5);
+    var R=Math.min(W,H)*RF, cx=W/2, cy=getOriginY();
+    var angle=Math.PI*0.306+Math.random()*(Math.PI*0.389);
     var sx=cx+R*Math.cos(angle), sy=cy-R*Math.sin(angle);
     var speed=SPEED_MIN+Math.random()*(SPEED_MAX-SPEED_MIN);
     var vx=speed*Math.cos(angle), vy=-speed*Math.sin(angle);
@@ -1424,6 +1555,7 @@ function buildCard(p, i, hlQuery) {
     +'<div class="pub-authors">'+hl(p.authors)+'</div>'
     +'<div class="pub-tags">'+jTag+yearTag+matTag+instrTag+cfgTag+topicTag+'</div>'
     +'</div>'
+    +'<button class="pub-flag" title="Report an error" onclick="openReport(event,'+entryId+')">&#9873;</button>'
     +'</div>';
 }
 
@@ -1563,11 +1695,11 @@ async function startMode(m) {
 
 function goHome() {
   document.getElementById('app').classList.remove('visible');
+  document.getElementById('bg-canvas').style.display = 'block';
+  window._resumeCanvas();
   var sbar=document.getElementById('search-bar'); if(sbar) sbar.style.display='none';
   var scopeRow=document.getElementById('scope-row'); if(scopeRow) scopeRow.style.display='none';
   var sinp=document.getElementById('search-input'); if(sinp) sinp.value='';
-  document.getElementById('bg-canvas').style.display='block';
-  window._resumeCanvas();
   var l=document.getElementById('landing');
   l.style.display='flex';
   setTimeout(function(){ l.classList.remove('out'); }, 10);
@@ -1587,7 +1719,8 @@ function openDetail(doiOrId) {
   renderDetail(entry);
   var det = document.getElementById('detail');
   det.classList.add('visible');
-  det.classList.toggle('pop-detail', isPoplawsky(entry));
+  var drb = document.getElementById('detail-report-btn');
+  if(drb) drb.dataset.idx = doiOrId;
   document.getElementById('detail-body').scrollTop = 0;
 }
 
@@ -1695,6 +1828,87 @@ function highlight(text, query) {
   var esc=words.map(function(w){ return w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); });
   var re=new RegExp('('+esc.join('|')+')','gi');
   return escHtml(text).replace(re,'<mark>$1</mark>');
+}
+
+/* ════════════════════════════════════════
+   REPORT / FORMSPREE
+════════════════════════════════════════ */
+var _reportIdx = null;
+
+function openReport(e, idx) {
+  e.stopPropagation();
+  _reportIdx = idx;
+  var p = allData[idx];
+  var ref = document.getElementById('report-ref');
+  var title = (p.title||'').slice(0, 80) + ((p.title||'').length > 80 ? '...' : '');
+  ref.textContent = title + (p.doi ? '  ·  ' + p.doi : '');
+  document.querySelectorAll('#report-checklist input[type=checkbox]').forEach(function(cb){ cb.checked = false; });
+  document.getElementById('report-correction').value = '';
+  var fb = document.getElementById('report-feedback');
+  fb.className = 'report-feedback';
+  fb.textContent = '';
+  document.getElementById('report-submit-btn').disabled = false;
+  document.getElementById('report-overlay').classList.add('visible');
+}
+
+function closeReport(e) {
+  if(e && e.target !== document.getElementById('report-overlay')) return;
+  document.getElementById('report-overlay').classList.remove('visible');
+  _reportIdx = null;
+}
+
+function submitReport() {
+  var checked = Array.from(document.querySelectorAll('#report-checklist input[type=checkbox]:checked')).map(function(cb){ return cb.value; });
+  var correction = document.getElementById('report-correction').value.trim();
+  var fb = document.getElementById('report-feedback');
+
+  if(!checked.length) { fb.className = 'report-feedback err'; fb.textContent = 'Please select at least one field.'; return; }
+  if(!correction) { fb.className = 'report-feedback err'; fb.textContent = 'Please describe the issue or provide the correct value.'; return; }
+  var field = checked.join(', ');
+
+  var p = allData[_reportIdx] || {};
+  var btn = document.getElementById('report-submit-btn');
+  btn.disabled = true;
+  fb.className = 'report-feedback'; fb.textContent = '';
+
+  var payload = {
+    'Paper Title': p.title || '—',
+    'DOI': p.doi || '—',
+    'Year': p.year || '—',
+    'Authors': p.authors || '—',
+    'Incorrect Field': field,
+    'Correction / Notes': correction
+  };
+
+  fetch('https://formspree.io/f/mpqbnzen', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function(r){ return r.json().then(function(d){ return {ok: r.ok, data: d}; }); })
+  .then(function(res){
+    if(res.ok) {
+      fb.className = 'report-feedback ok';
+      fb.textContent = 'Report sent — thank you!';
+      setTimeout(function(){ document.getElementById('report-overlay').classList.remove('visible'); }, 1800);
+    } else {
+      fb.className = 'report-feedback err';
+      fb.textContent = 'Submission failed. Please try again.';
+      btn.disabled = false;
+    }
+  })
+  .catch(function(){
+    fb.className = 'report-feedback err';
+    fb.textContent = 'Network error. Please try again.';
+    btn.disabled = false;
+  });
+}
+
+function openReportFromDetail() {
+  var btn = document.getElementById('detail-report-btn');
+  var idx = btn ? Number(btn.dataset.idx) : null;
+  if(idx === null || isNaN(idx)) return;
+  openReport({ stopPropagation: function(){} }, idx);
 }
 
 /* Boot */
