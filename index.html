@@ -931,28 +931,28 @@
 ════════════════════════════════════════ */
 
 // Subtopic lookup — maps topic -> list of valid focus values
-var TOPIC_SUBTOPICS = {
-  'Instrumentation and Technique Development': ['Hardware','Detector','Laser Sources','Ion Optics','Experimental Modes'],
-  'Specimen Preparation and Experimental Methodology': ['Electropolishing','FIB','Advanced Preparation Techniques','Cryogenic Preparation','Environmental Transfer','Optimized Acquisition Parameters'],
-  'Data Reconstruction and Physical Modeling': ['Reconstruction Algorithms','Field Evaporation Physics','Spatial Resolution','Simulations'],
-  'Data Analysis and Quantification Methods': ['Cluster Detection','Segregation Analysis','Proxigrams','Composition Profiles','Peak Ranging','Uncertainty Quantification'],
-  'Computational and Machine-Learning Approaches': ['Automated Ranging','Clustering Algorithms','Segmentation','Statistical Analysis','Automated Data Extraction'],
-  'Correlative and Multimodal Characterization': ['-'],
-  'Materials Science and Application Studies': ['Solid Solutions','Precipitation','Grain Boundaries and Interfaces','Dislocations, Stacking Faults and Twins','Microstructural Degradation Processes','Geology','Biological and Organic Materials'],
-};
+//var TOPIC_SUBTOPICS = {
+//  'Instrumentation and Technique Development': ['Hardware','Detector','Laser Sources','Ion Optics','Experimental Modes'],
+//  'Specimen Preparation and Experimental Methodology': ['Electropolishing','FIB','Advanced Preparation Techniques','Cryogenic Preparation','Environmental Transfer','Optimized Acquisition Parameters'],
+//  'Data Reconstruction and Physical Modeling': ['Reconstruction Algorithms','Field Evaporation Physics','Spatial Resolution','Simulations'],
+// 'Data Analysis and Quantification Methods': ['Cluster Detection','Segregation Analysis','Proxigrams','Composition Profiles','Peak Ranging','Uncertainty Quantification'],
+//  'Computational and Machine-Learning Approaches': ['Automated Ranging','Clustering Algorithms','Segmentation','Statistical Analysis','Automated Data Extraction'],
+//  'Correlative and Multimodal Characterization': ['-'],
+//  'Materials Science and Application Studies': ['Solid Solutions','Precipitation','Grain Boundaries and Interfaces','Dislocations, Stacking Faults and Twins','Microstructural Degradation Processes','Geology','Biological and Organic Materials'],
+//};
 
 // Material subclass lookup — maps material_system -> list of subclasses
-var MATERIAL_SUBCLASSES = {
-  'Metals and Alloys': ['Steels and Cast Irons','Aluminium Alloys','Nickel and Cobalt Alloys','Titanium Alloys','Refractory and High-Entropy Alloys','Copper and Precious Metal Alloys','Magnesium and Light Metal Alloys','Intermetallics'],
-  'Semiconductors': ['Silicon and Germanium','III-V Compounds','II-VI Compounds','Oxide Semiconductors','Wide-Bandgap Semiconductors','Organic and 2D Semiconductors'],
-  'Ceramics and Oxides': ['Structural Ceramics','Functional Oxides','Nuclear Ceramics','Glasses and Amorphous Materials'],
-  'Functional and Energy Materials': ['Magnetic Materials','Battery and Fuel Cell Materials','Catalysts and Passivation Layers','Thermoelectric and Piezoelectric','Shape-Memory Alloys'],
-  'Thin Films and Nanostructures': ['Thin Films and Coatings','Nanoparticles and Nanoclusters','Nanowires and Quantum Dots','Multilayers and Heterostructures'],
-  'Nuclear and Irradiated Materials': ['Reactor Steels and Pressure Vessel Alloys','Zirconium Alloys','ODS and FM Steels','Irradiation-Induced Microstructure'],
-  'Geological and Extraterrestrial Materials': ['Minerals and Rocks','Meteorites and Lunar Materials','Gemstones and Fluid Inclusions'],
-  'Biomaterials and Organic Materials': ['Hard Tissue and Biominerals','Soft Tissue and Synthetic Polymers','Biogenic Minerals and Organics'],
-  'None': ['-'],
-};
+//var MATERIAL_SUBCLASSES = {
+//  'Metals and Alloys': ['Steels and Cast Irons','Aluminium Alloys','Nickel and Cobalt Alloys','Titanium Alloys','Refractory and High-Entropy Alloys','Copper and Precious Metal Alloys','Magnesium and Light Metal Alloys','Intermetallics'],
+//  'Semiconductors': ['Silicon and Germanium','III-V Compounds','II-VI Compounds','Oxide Semiconductors','Wide-Bandgap Semiconductors','Organic and 2D Semiconductors'],
+// 'Ceramics and Oxides': ['Structural Ceramics','Functional Oxides','Nuclear Ceramics','Glasses and Amorphous Materials'],
+// 'Functional and Energy Materials': ['Magnetic Materials','Battery and Fuel Cell Materials','Catalysts and Passivation Layers','Thermoelectric and Piezoelectric','Shape-Memory Alloys'],
+//  'Thin Films and Nanostructures': ['Thin Films and Coatings','Nanoparticles and Nanoclusters','Nanowires and Quantum Dots','Multilayers and Heterostructures'],
+//  'Nuclear and Irradiated Materials': ['Reactor Steels and Pressure Vessel Alloys','Zirconium Alloys','ODS and FM Steels','Irradiation-Induced Microstructure'],
+// 'Geological and Extraterrestrial Materials': ['Minerals and Rocks','Meteorites and Lunar Materials','Gemstones and Fluid Inclusions'],
+//  'Biomaterials and Organic Materials': ['Hard Tissue and Biominerals','Soft Tissue and Synthetic Polymers','Biogenic Minerals and Organics'],
+//  'None': ['-'],
+//};
 
 var allData = [];
 var abstractMap = {};
@@ -1206,41 +1206,6 @@ function buildFilterSection(container, def) {
   sec.innerHTML = '<div class="fsection-head" onclick="toggleSection(this.parentElement)"><span class="fsection-label">'+def.label+'</span><span class="fsection-caret">▾</span></div><div class="fsection-body" id="fbody-'+def.key+'"></div>';
   container.appendChild(sec);
   renderFilterOpts(def.key, 'fbody-'+def.key);
-}
-
-function buildSubtopicSection(container) {
-  // Get selected topics
-  var selectedTopics = F['topic'] && F['topic'].size > 0 ? Array.from(F['topic']) : Object.keys(TOPIC_SUBTOPICS);
-  // Collect valid subtopics
-  var subtopics = {};
-  selectedTopics.forEach(function(t){
-    (TOPIC_SUBTOPICS[t]||[]).forEach(function(s){ if(s && s!=='-') subtopics[s]=true; });
-  });
-  var opts = Object.keys(subtopics).sort();
-  if(!opts.length) return;
-  var sec = document.createElement('div');
-  sec.className = 'fsection collapsed';
-  sec.id = 'fsec-subtopic';
-  sec.innerHTML = '<div class="fsection-head" onclick="toggleSection(this.parentElement)"><span class="fsection-label">Subtopic</span><span class="fsection-caret">▾</span></div><div class="fsection-body" id="fbody-focus"></div>';
-  container.appendChild(sec);
-  renderFilterOpts('focus', 'fbody-focus');
-}
-
-function buildSubclassSection(container) {
-  // Get selected material systems
-  var selectedMats = F['material_system'] && F['material_system'].size > 0 ? Array.from(F['material_system']) : Object.keys(MATERIAL_SUBCLASSES);
-  var subclasses = {};
-  selectedMats.forEach(function(m){
-    (MATERIAL_SUBCLASSES[m]||[]).forEach(function(s){ if(s && s!=='-') subclasses[s]=true; });
-  });
-  var opts = Object.keys(subclasses).sort();
-  if(!opts.length) return;
-  var sec = document.createElement('div');
-  sec.className = 'fsection collapsed';
-  sec.id = 'fsec-material_subclass';
-  sec.innerHTML = '<div class="fsection-head" onclick="toggleSection(this.parentElement)"><span class="fsection-label">Material Subclass</span><span class="fsection-caret">▾</span></div><div class="fsection-body" id="fbody-material_subclass"></div>';
-  container.appendChild(sec);
-  renderFilterOpts('material_subclass', 'fbody-material_subclass');
 }
 
 function buildYearSection(container) {
