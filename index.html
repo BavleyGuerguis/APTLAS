@@ -1095,8 +1095,8 @@ function uniqVals(key) {
     });
   } else {
     pairs.sort(function(a,b){
-      var aLow = /^(none|other|perspective|prespective)$/i.test(a[0]);
-      var bLow = /^(none|other|perspective|prespective)$/i.test(b[0]);
+      var aLow = /^(none|other|)$/i.test(a[0]);
+      var bLow = /^(none|other|)$/i.test(b[0]);
       if(aLow && !bLow) return 1;
       if(bLow && !aLow) return -1;
       return b[1]-a[1]; // sort by count descending
