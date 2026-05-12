@@ -1095,8 +1095,10 @@ function uniqVals(key) {
     });
   } else {
     pairs.sort(function(a,b){
-      if(a[0]==='None' && b[0]!=='None') return 1;
-      if(b[0]==='None' && a[0]!=='None') return -1;
+      var aLow = /^(none|other|perspective|prespective)$/i.test(a[0]);
+      var bLow = /^(none|other|perspective|prespective)$/i.test(b[0]);
+      if(aLow && !bLow) return 1;
+      if(bLow && !aLow) return -1;
       return b[1]-a[1]; // sort by count descending
     });
   }
@@ -1160,18 +1162,12 @@ function buildSidebar() {
   buildPrimarySection(container, primary);
 
   if(mode === 'material') {
-    // material_system (primary) → subclass → config → instrument → Application → subtopic → journal
-    buildSubclassSection(container);
     buildFilterSection(container, { key: 'configuration', label: 'Configuration' });
     buildFilterSection(container, { key: 'instrument',    label: 'Instrument' });
     buildFilterSection(container, { key: 'topic',         label: 'Application' });
-    buildSubtopicSection(container);
     buildFilterSection(container, { key: 'journal',       label: 'Journal' });
   } else if(mode === 'topic') {
-    // topic (primary) → subtopic → material_system → subclass → config → instrument → journal
-    buildSubtopicSection(container);
     buildFilterSection(container, { key: 'material_system', label: 'Material System' });
-    buildSubclassSection(container);
     buildFilterSection(container, { key: 'configuration',   label: 'Configuration' });
     buildFilterSection(container, { key: 'instrument',      label: 'Instrument' });
     buildFilterSection(container, { key: 'journal',         label: 'Journal' });
