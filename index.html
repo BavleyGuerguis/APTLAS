@@ -578,27 +578,6 @@
       color: var(--light);
     }
 
-    /* Poplawsky gold highlight */
-    .pub.pop {
-      border-color: rgba(232,164,39,0.7);
-      background: rgba(232,164,39,0.04);
-      box-shadow: 0 0 0 1px rgba(232,164,39,0.25);
-    }
-    .pub.pop:hover {
-      border-color: var(--gold);
-      background: rgba(232,164,39,0.08);
-    }
-    #detail.pop-detail .detail-type-badge { border-color: var(--gold); color: var(--gold); background: var(--gold-bg); }
-    #detail.pop-detail .detail-title      { color: var(--gold); }
-    #detail.pop-detail .detail-authors    { color: rgba(232,164,39,0.75); }
-    #detail.pop-detail .detail-section-title { color: var(--gold); border-color: rgba(232,164,39,0.25); }
-    #detail.pop-detail .detail-field      { border-color: rgba(232,164,39,0.2); background: rgba(232,164,39,0.04); }
-    #detail.pop-detail .detail-field-label{ color: rgba(232,164,39,0.6); }
-    #detail.pop-detail .detail-topbar     { border-color: rgba(232,164,39,0.25); }
-    #detail.pop-detail .back-btn          { border-color: rgba(232,164,39,0.35); color: var(--gold); }
-    #detail.pop-detail .detail-params-table tr { border-color: rgba(232,164,39,0.15); }
-    #detail.pop-detail .detail-params-table td:first-child { color: rgba(232,164,39,0.6); }
-
     /* Scrollbar */
     ::-webkit-scrollbar       { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -1493,10 +1472,6 @@ function renderResults() {
   setTimeout(addChunk, 0);
 }
 
-function isPoplawsky(p) {
-  return /poplawsky/i.test(p.authors||'');
-}
-
 function buildCard(p, i, hlQuery) {
   var hl = hlQuery ? function(t){ return highlight(t||'', hlQuery); } : function(t){ return escHtml(t||''); };
   var instrTag  = p.instrument    ? '<span class="tag tag-i">'+escHtml(p.instrument)+'</span>' : '';
@@ -1506,10 +1481,9 @@ function buildCard(p, i, hlQuery) {
   var topicTag  = p.topic         ? '<span class="tag tag-t">'+escHtml(p.topic)+'</span>' : '';
   var jTag      = p.journal       ? '<span class="tag tag-j">'+hl(p.journal)+'</span>' : '';
   var entryId   = p._idx;
-  var popCls    = isPoplawsky(p) ? ' pop' : '';
   var chkCls    = SELECTED.has(entryId) ? ' checked' : '';
   var tick      = SELECTED.has(entryId) ? '✓' : '';
-  return '<div class="pub'+popCls+chkCls+'" id="pub-'+entryId+'" style="animation-delay:'+(i*0.025)+'s">'
+  return '<div class="pub'+chkCls+'" id="pub-'+entryId+'" style="animation-delay:'+(i*0.025)+'s">'
     +'<div class="pub-check" onclick="toggleSelect(event,'+entryId+')"><span class="pub-check-tick">'+tick+'</span></div>'
     +'<div class="pub-body" onclick="openDetail('+entryId+')">'
     +'<div class="pub-title">'+hl(p.title)+'</div>'
@@ -1746,6 +1720,7 @@ function renderDetail(p) {
 
     // Experimental parameters
     +'<div class="detail-section">'
+    +'<div style="color:#e05c5c;font-size:12px;font-style:italic;text-align:center;margin-top:18px;"> The section below is still under work. Values may contain errors.</div>'
     +'<div class="detail-section-title">Experimental Parameters</div>'
     +'<table class="detail-params-table"><tbody>'+paramRows+'</tbody></table>'
     +'</div>'
