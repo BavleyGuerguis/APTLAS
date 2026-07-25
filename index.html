@@ -134,6 +134,21 @@
     }
     .landing-disclaimer a { color: rgba(232,164,39,0.5); text-decoration: none; }
     .landing-disclaimer a:hover { color: var(--gold); }
+    .landing-updated {
+      margin-top: 22px;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--mid);
+      background: var(--card);
+      border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 7px 14px;
+    }
+    .landing-updated .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+    }
+    .landing-updated .date { color: var(--light); letter-spacing: 0.1em; }
 
     /* ── Canvas ── */
     #bg-canvas {
@@ -739,6 +754,11 @@
   <div class="landing-disclaimer">
     This list is not comprehensive - many relevant publications may be missing.<br>
     Found an error? Use the <span style="color:#e05c5c">⚑</span> flag on any card to report it.<br>
+  </div>
+  <!-- Update the date below each time data.json is refreshed -->
+  <div class="landing-updated">
+    <span class="dot"></span>
+    Last updated <span class="date">23 July 2026</span>
   </div>
 </div>
 
